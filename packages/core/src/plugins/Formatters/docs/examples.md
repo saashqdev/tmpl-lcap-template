@@ -1,17 +1,17 @@
-## 占位符格式器 PlaceholderFormatter
+## PlaceholderFormatter
 
-用于排除传入空数据或异常数据时，出现`NaN`或`[Object object]`等不友好的体验。
+This function is used to eliminate unfriendly experiences such as `NaN` or `[Object object]` when empty or abnormal data is passed in.
 
-### 基本用法
+### Basic Usage
 
 ``` vue
 <template>
 <div>
-    <div>字符串 abc 显示为：{{ formattedString }}</div>
-    <div>数字 12 显示为：{{ formattedNumber }}</div>
-    <div>NaN 显示为：{{ formattedNaN }}</div>
-    <div>Object 显示为：{{ formattedObject }}</div>
-    <div>Array 显示为：{{ formattedArray }}</div>
+    <div>The string abc is displayed as: {{ formattedString }}</div>
+    <div>The number 12 is displayed as: {{ formattedNumber }}</div>
+    <div>NaN is displayed as: {{ formattedNaN }}</div>
+    <div>Object is displayed as: {{ formattedObject }}</div>
+    <div>Array is displayed as: {{ formattedArray }}</div>
 </div>
 </template>
 <script>
@@ -31,24 +31,24 @@ export default {
 </script>
 ```
 
-### 自定义
+### Customization
 
-也可以创建自定义的占位符格式器。
+It is also possible to create custom placeholder formatters.
 
 ``` vue
 <template>
 <div>
-    <div>字符串 abc 显示为：{{ formattedString }}</div>
-    <div>数字 12 显示为：{{ formattedNumber }}</div>
-    <div>NaN 显示为：{{ formattedNaN }}</div>
-    <div>Object 显示为：{{ formattedObject }}</div>
-    <div>Array 显示为：{{ formattedArray }}</div>
+    <div>The string abc is displayed as: {{ formattedString }}</div>
+    <div>The number 12 is displayed as: {{ formattedNumber }}</div>
+    <div>NaN is displayed as: {{ formattedNaN }}</div>
+    <div>Object is displayed as: {{ formattedObject }}</div>
+    <div>Array is displayed as: {{ formattedArray }}</div>
 </div>
 </template>
 <script>
 import { utils } from 'cloud-ui.vusion';
 
-const placeholderFormatter = new utils.PlaceholderFormatter('加载失败');
+const placeholderFormatter = new utils.PlaceholderFormatter('Load failed');
 
 export default {
     data() {
@@ -64,24 +64,24 @@ export default {
 </script>
 ```
 
-### Params
+Params
 
 | Param | Type | Default | Description |
 | ----- | ---- | ------- | ----------- |
-| value | Any | | 待格式化的值 |
-| placeholder | String | `'-'` | 占位符 |
+| value | Any | | Value to be formatted |
+| placeholder | String | `'-'` | Placeholder |
 
-## 日期格式器 DateFormatter
+## DateFormatter
 
-用于将`Date`对象或日期字符串转换为指定的格式。
+Used to convert a `Date` object or date string to the specified format.
 
-### 基本用法
+### Basic usage
 
 ``` vue
 <template>
 <div>
-    <div><code>new Date()</code> 显示为：{{ formattedDate }}</div>
-    <div><code>'2018-08-08'</code> 显示为：{{ formattedString }}</div>
+    <div><code>new Date()</code> displays as: {{ formattedDate }}</div>
+    <div><code>'2018-08-08'</code> displays as: {{ formattedString }}</div>
 </div>
 </template>
 <script>
@@ -98,24 +98,24 @@ export default {
 </script>
 ```
 
-### Params
+Params
 
 | Param | Type | Default | Description |
 | ----- | ---- | ------- | ----------- |
-| value | Date, String | | 待格式化的值。可以为日期对象或有效的字符串 |
-| pattern | String | `'YYYY-MM-DD HH:mm:ss'` | 格式化模板 |
+| value | Date, String | | The value to be formatted. Can be a date object or a valid string |
+| pattern | String | `'YYYY-MM-DD HH:mm:ss'` | Formatting template |
 
-## 数字格式器 NumberFormatter
+## NumberFormatter
 
-可将数字转换为指定格式。
+Converts a number to the specified format.
 
-### 基本用法
+### Basic usage
 
 ``` vue
 <template>
 <div>
-    <div>20 按<code>'0000'</code>格式显示为：{{ formattedNumber }}</div>
-    <div>1234 按<code>'$ #,##0.00'</code>格式显示为：{{ formattedCurrency }}</div>
+    <div>20 is displayed in the <code>'0000'</code> format as: {{ formattedNumber }}</div>
+    <div>1234 is displayed in the format of <code>'$ #,##0.00'</code> as: {{ formattedCurrency }}</div>
 </div>
 </template>
 <script>
@@ -132,9 +132,9 @@ export default {
 </script>
 ```
 
-### Params
+Params
 
 | Param | Type | Default | Description |
 | ----- | ---- | ------- | ----------- |
-| value | Number, String | | 待格式化的值。可以为数字或有效的字符串 |
-| pattern | String | `'0'` | 格式化模板 |
+| value | Number, String | | The value to be formatted. Can be a number or a valid string |
+| pattern | String | `'0'` | Format template |

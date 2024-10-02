@@ -91,7 +91,7 @@ export const encodeUrl = function (url) {
         return url;
     }
     try {
-        // 包含单个 '%' 的 query 参数会被 decodeURIComponent 解析报错，例如：ABC%DEF
+        // Query parameters containing a single '%' will be parsed by decodeURIComponent and an error will be reported, for example: ABC%DEF
         const parsedPath = parsePath(url || '');
         const path = parsedPath.path;
         const hash = parsedPath.hash;

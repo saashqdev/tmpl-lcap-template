@@ -2,7 +2,7 @@ import axios from 'axios';
 import Service from 'request-pre';
 import { stringify } from 'qs';
 
-import { formatMicroFrontUrl } from "../../init/router/microFrontUrl"; // 微前端路由方法
+import { formatMicroFrontUrl } from "../../init/router/microFrontUrl"; // Micro front-end routing method
 
 import cookie from "../cookie";
 import { addConfigs, shortResponse } from "./add.configs";
@@ -50,7 +50,7 @@ const foramtCookie = (cookieStr) => {
     result[key] = {
       name: key,
       value: obj[key],
-      domain: "", // 前端只能拿到k v 其他字段补齐即可
+      domain: "", // The front end can only get kv and fill in other fields
       cookiePath: "",
       sameSite: "",
       httpOnly: "",
@@ -62,10 +62,10 @@ const foramtCookie = (cookieStr) => {
 };
 
 /**
- * 目前主要测试的是 get 请求
- * 图片，文件，和文件流形式的下载
+ * Currently the main test is the get request
+ * Download images, files, and file streams
  * https://raw.githubusercontent.com/vusion/cloud-ui/master/src/assets/images/1.jpg
- * 支持 query 参数
+ * Support query parameters
  */
 function download(url) {
     const { path, method, body = {}, headers = {}, query = {}, timeout } = url;
@@ -78,11 +78,11 @@ function download(url) {
         responseType: 'blob',
         timeout,
     }).then((res) => {
-        // 包含 content-disposition， 从中解析名字，不包含 content-disposition 的获取请求地址的后缀
+        // Contains content-disposition, parses the name from it, and does not contain the suffix of the request address of content-disposition
         let effectiveFileName = res.request.getAllResponseHeaders().includes('content-disposition') ? getFilenameFromContentDispositionHeader(res.request.getResponseHeader('content-disposition')) : res.request.responseURL.split('/').pop();
         const { data, status, statusText } = res;
 
-        // 通过UA判断是否是移动端
+        // Determine whether it is a mobile terminal through UA
         const mobilePattern = /mobile|mobi|wap|simulator|iphone|android/gi;
         const isMobile = mobilePattern.test(navigator.userAgent);
         if (!isMobile) {
@@ -111,7 +111,7 @@ function download(url) {
             },
         });
     }).catch((err) =>
-        // 基于 AxiosError 的错误类型 https://github.com/axios/axios/blob/b7e954eba3911874575ed241ec2ec38ff8af21bb/index.d.ts#L85
+        // Error type based on AxiosError https://github.com/axios/axios/blob/b7e954eba3911874575ed241ec2ec38ff8af21bb/index.d.ts#L85
         Promise.resolve({
             data: {
                 code: err.code,
@@ -143,7 +143,7 @@ export function genBaseOptions(requestInfo) {
   headers.DomainName = window.appInfo?.domainName;
   if (window.appInfo?.frontendName)
     headers["LCAP-FRONTEND"] = window.appInfo?.frontendName;
-  // 用户本地时区信息，传递给后端
+  // User's local time zone information is passed to the backend
   headers.TimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   let data;
@@ -175,7 +175,7 @@ const requester = function (requestInfo) {
   if (!url?.path) {
     throw Error('unexpected url path as', url?.path);
   }
-  // 如果参数中存在 connectionName 则认为请求来自于 CallConnector
+  // If connectionName exists in the parameter, the request is considered to come from CallConnector
   const connectionName = config?.connectionName;
   if (connectionName && url) {
     url.path = formatCallConnectorPath(url.path, connectionName);
@@ -207,7 +207,7 @@ const requester = function (requestInfo) {
 
 const service = new Service(requester);
 
-// 调整请求路径
+// Adjust the request path
 const adjustPathWithSysPrefixPath = (apiSchemaList) => {
     const newApiSchemaMap = {};
     if (apiSchemaList) {
@@ -336,8 +336,8 @@ export const createLogicService = function createLogicService(apiSchemaList, ser
               }
               if (!err.response) {
                   if (!config.noErrorTip) {
-                      // instance.show('系统错误，请查看日志！');
-                      Config.toast.error('系统错误，请查看日志！');
+                      // instance.show('System error, please check the log!');
+                      Config.toast.error('System error, please check the log!');
                       return;
                   }
               }
@@ -352,7 +352,7 @@ export const createLogicService = function createLogicService(apiSchemaList, ser
                   }
               }
               if (err.Code === 501 && err.Message === 'abort') {
-                  throw Error('程序中止');
+                  throw Error('Program terminated');
               }
               const HttpResponse = {
                   status: response.response.status + '',

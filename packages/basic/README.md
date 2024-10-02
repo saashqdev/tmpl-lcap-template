@@ -1,3 +1,3 @@
 # basic-template
 
-给React应用提供的工具函数包
+Tool function package provided for React applications

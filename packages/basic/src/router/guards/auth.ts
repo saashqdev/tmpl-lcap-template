@@ -4,7 +4,7 @@ import { filterRoutes, parsePath } from "../../utils/route";
 import { getBasePath } from "../../utils/encodeUrl";
 
 /**
- * 是否有无权限页面
+ * Is there a permissionless page?
  * @param {*} routes
  */
 export function findNoAuthView(routes) {
@@ -21,8 +21,8 @@ const getParentPath = (path) =>
     : path.substring(0, path.lastIndexOf("/")) || ROOT_PATH;
 
 /**
- * 过滤无权限页面（X2.22_0629调整），如子页面绑定了角色父页面未绑定，则子页面无法访问。
- * 更多边界情况参考用例: tests\unit\global\routes\route.spec.js
+ * Filter unauthorized pages (X2.22_0629 adjustment). If a sub-page is bound to a role but the parent page is not bound, the sub-page cannot be accessed.
+ * For more edge cases, refer to: tests\unit\global\routes\route.spec.js
  * @param {*} resources
  */
 export function filterAuthResources(resources) {
@@ -37,7 +37,7 @@ export function filterAuthResources(resources) {
       [ROOT_PATH, 1],
       [getBasePath(), 1],
     ])
-  ); // 需注意，路由起始都具备basePath（PC&H5都有不固定起始路由）
+  ); // Note that the starting route has basePath (PC & H5 have unfixed starting routes)
 
   const isValidPath = (path) => {
     let parentPath = getParentPath(path);
@@ -60,8 +60,8 @@ export function filterAuthResources(resources) {
 //           routes,
 //           null,
 //           (route, ancestorPaths) => {
-//             const routePath = route.path;
-//             const completePath = [...ancestorPaths, routePath].join("/");
+// const routePath = route.path;
+// const completePath = [...ancestorPaths, routePath].join("/");
 //             const authPath = userResourcePaths.find((userResourcePath) =>
 //               userResourcePath?.startsWith(completePath)
 //             );
@@ -77,7 +77,7 @@ export function filterAuthResources(resources) {
 //       return resources.concat(
 //         baseRoutes.map((route) => ({
 //           resourceValue: route,
-//           // 如果后续需要区分路由类型，这里也需要补充 resourceType
+// // If you need to distinguish the route type later, you also need to add resourceType here
 //         }))
 //       );
 //     }
@@ -102,13 +102,13 @@ export function filterAuthResources(resources) {
 //         } else {
 //           try {
 //             const resources = await $auth.getUserResources(
-//               appConfig.domainName
+// appConfig.domainName
 //             );
 //             const realResources = filterAuthResources(
 //               concatResourcesRoutes(resources, baseResourcePaths)
 //             );
 //             addAuthRoutes(realResources);
-//             // 即使没有查到权限，也需要重新进一遍，来决定去 无权限页面 还是 404页面
+// // Even if the permission is not found, you need to enter again to decide whether to go to the no permission page or the 404 page
 //             next({
 //               path: toPath,
 //               query: toQuery,
@@ -127,7 +127,7 @@ export function filterAuthResources(resources) {
 //           next({ path: noAuthView.path });
 //         }
 //       }
-//     } else if (!$auth.isInit() && userInfo.UserId) {
+// } else if (!$auth.isInit() && userInfo.UserId) {
 //       const resources = await $auth.getUserResources(appConfig.domainName);
 //       const realResources = filterAuthResources(
 //         concatResourcesRoutes(resources, baseResourcePaths)

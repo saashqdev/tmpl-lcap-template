@@ -4,7 +4,7 @@ import processService from "./processService";
 
 function initProcess() {
   /**
-   * 流程接口注册
+   * Process interface registration
    */
   Global.prototype.$process = processService;
   Global.prototype.$processV2 = initProcessV2Service();

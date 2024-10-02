@@ -1,6 +1,6 @@
  let mockUser = {
     "UserId": "f4519f848aab479e8bb9dd7c8506e86a",
-    "UserName": "预览用户",
+    "UserName": "Preview User",
     "LastLoginTime": 1665970625290,
     "LoginCount": 2,
     "Status": "normal",
@@ -31,7 +31,7 @@ export const createMockServiceByData = (api, data,allLogics= {} ) => {
             })
         }
     async function mockRequest(...args) {
-        console.log('请求了mock接口: ', api, args, data);
+        console.log('Requested mock interface: ', api, args, data);
         return Promise.resolve(data)
     }
     !allLogics[api] && (allLogics[api] = mockRequest)

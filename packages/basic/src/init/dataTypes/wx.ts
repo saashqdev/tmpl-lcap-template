@@ -1,12 +1,12 @@
-/* 仅供小程序使用 */
+/* For use by mini programs only */
 
-/* 将路由带http */
+/* Add routing to http */
 const getUrl = (url) => url.startsWith('http') ? url : 'http://' + url;
 
-/* 小程序环境 */
+/* Mini program environment */
 export const isMiniApp = () => window.__wxjs_environment === 'miniprogram';
 
-/* 路由跳转 */
+/* Route jump */
 export const navigateTo = ({ url }) => {
     if (!isMiniApp)
         return;
@@ -16,7 +16,7 @@ export const navigateTo = ({ url }) => {
     window.wx.miniProgram.navigateTo({ url: miniUrl });
 };
 
-/* 跳转到头像昵称页面*/
+/* Jump to the avatar nickname page*/
 export const navigateToUserInfoPage = () => {
     if (!isMiniApp)
         return;

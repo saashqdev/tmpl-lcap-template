@@ -1,4 +1,4 @@
-// 全局变量声明
+// Global variable declaration
 interface Window {
   authService: any;
   appInfo: any;
@@ -20,7 +20,7 @@ interface Window {
   Vue: any;
 }
 
-// navigator对象
+// navigator object
 interface Navigator {
   userLanguage: string;
 }

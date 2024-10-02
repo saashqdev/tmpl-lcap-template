@@ -12,9 +12,9 @@ function initAuth(options: {
   const router = options.router;
   const base = (options.base || "").replace(/\/$/, "");
   /**
-   * 是否有当前路由下的子权限
-   * 该方法只能在 Global 中调用
-   * @param {*} subPath 子权限路径，如 /createButton/enabled
+   * Whether there are sub-permissions under the current route
+   * This method can only be called in Global
+   * @param {*} subPath sub-permission path, such as /createButton/enabled
    */
   authService.hasSub = function (subPath) {
     const currentPath = base + router.currentRoute.path;
@@ -27,7 +27,7 @@ function initAuth(options: {
   };
 
   /**
-   * 账号与权限中心
+   * Account and permission center
    */
   window.$auth = authService;
   Global.prototype.$auth = authService;

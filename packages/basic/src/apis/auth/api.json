@@ -5,7 +5,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "GenerateExtendToken",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -15,7 +15,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "NuimsLogin",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -25,7 +25,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "CheckExtendToken",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -35,7 +35,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "Authentication",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -45,7 +45,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "GetUser",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -55,7 +55,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "GetUserResources",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -65,7 +65,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "getNuimsTenantLoginTypes",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -75,7 +75,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "IsUserHasPermission",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -85,7 +85,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "Logout",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -96,7 +96,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "GetTenantLoginTypes",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },
@@ -106,7 +106,7 @@
             "path": "/gateway/nuims/nuims",
             "query": {
                 "Action": "Login",
-                "Version": "2020-06-01"
+                "Version": "2024-06-01"
             }
         }
     },

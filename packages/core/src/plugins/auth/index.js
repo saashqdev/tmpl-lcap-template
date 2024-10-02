@@ -7,9 +7,9 @@ export default {
         const router = options.router;
         const base = (options.base || '').replace(/\/$/, '');
         /**
-        * 是否有当前路由下的子权限
-        * 该方法只能在 Vue 中调用
-        * @param {*} subPath 子权限路径，如 /createButton/enabled
+        * Whether there are sub-permissions under the current route
+        * This method can only be called in Vue
+        * @param {*} subPath sub-permission path, such as /createButton/enabled
         */
         authService.hasSub = function (subPath) {
             const currentPath = base + router.currentRoute.path;
@@ -23,37 +23,37 @@ export default {
             return this.has(base + path);
         };
         /**
-         * 账号与权限中心
+         * Account and Permission Center
          */
         Vue.prototype.$auth = authService;
         window.$auth = authService;
-        // designer 和 环境直接放行认证和鉴权
+        // Designer and environment directly release authentication and authorization
         if (process.env.NODE_ENV === 'development' || process.env.VUE_APP_DESIGNER) {
             Vue.directive('auth', {
                 bind() {
-                    // noop
+                    // nope
                 },
             });
             return;
         }
 
         /**
-         * - 组件权限项功能
-         * - 自动隐藏路由组件功能
-         * 实现该需求无非三种方案：
-         *     - 源码修改 v-show 或 disabled 属性，比如 :disabled="!$auth.hasSub('createButton/enabled') || !canSubmit"，
-         *       从而从根本上改变 render 函数，有一定风险+恶心
-         *     - 在 updated 阶段植入一些东西，缺点就是每次 updated 都会走一遍
-         *     - 修改原组件 disabled 属性等，不是很推荐。在外层包装组件也属于这种情况
+         * - Component permission item function
+         * - Automatically hide routing component function
+         * There are only three solutions to achieve this requirement:
+         * - Modify the v-show or disabled attribute in the source code, for example: disabled="!$auth.hasSub('createButton/enabled') || !canSubmit",
+         * This fundamentally changes the render function, which is risky and nauseating
+         * - Implant something in the updated phase. The disadvantage is that it will be done again every time it is updated.
+         * - Modifying the disabled attribute of the original component is not recommended. This also applies to wrapping components in the outer layer.
          */
         /**
-         * 权限指令
-         * value 绑定权限项，如果不传则使用 ref 名
-         * modifiers 的名字用于子权限行为，组件属性那里有问题，暂时没有实现
+         * Permission Command
+         * value binds the permission item. If not passed, the ref name is used.
+         * The names of modifiers are used for sub-permission behaviors. There are problems with component attributes and they are not implemented yet.
          */
         const vAuth = {
             async handle(el, binding, vnode, oldVnode) {
-                // 初始化操作，防止先出现后消失
+                // Initialize the operation to prevent it from appearing first and then disappearing
                 if (el.__vue__ && el.__vue__.$options.name === 'u-table-view-column')
                     el.__vue__.currentHidden = false;
                 else {
@@ -68,7 +68,7 @@ export default {
                 const authPath = data.value;
                 const visible = await authService.has(authPath, options?.domainName);
 
-                // 表格列不起作用，特殊处理
+                // Table columns do not work, special processing
                 if (el.__vue__ && el.__vue__.$options.name === 'u-table-view-column')
                     el.__vue__.currentHidden = !visible;
                 else {
@@ -84,9 +84,9 @@ export default {
         };
         Vue.directive('auth', vAuth);
 
-        Vue.mixin({
+        View.mixin({
             mounted() {
-                // 目前只开放权限显隐
+                // Currently only permissions are visible and invisible
                 this._updateVisibleByAuth();
             },
             updated() {
@@ -96,10 +96,10 @@ export default {
                 _updateVisibleByAuth() {
                     if (!(options.autoHide && this.to))
                         return;
-                    // 有 v-auth 了就不处理 to 的了。
+                    // With v-auth, to is not processed.
                     if (this.$vnode.data.directives && this.$vnode.data.directives.some((directive) => directive.name === 'auth'))
                         return;
-                    if (!authService.isInit())
+                    if ( ! authService . isInit ())
                         return;
 
                     let visible = true;
@@ -109,7 +109,7 @@ export default {
                             toPath = this.to.path;
                         else if (typeof this.to === 'string')
                             toPath = this.to.split('?')[0];
-                        // 去掉末尾的 / 导致的权限不匹配
+                        // Remove the trailing / to prevent permissions from matching
                         const fullPath = (base + toPath).replace(/\/+$/, '');
                         visible = visible && authService.has(fullPath);
                     }

@@ -20,12 +20,12 @@ export const genInitFromSchema = (typeKey, defaultValue, level) => genInitData(t
 
 export default {
   install(Vue, options) {
-    const dataTypesMap = options.dataTypesMap || {}; // TODO 统一为  dataTypesMap
+    const dataTypesMap = options.dataTypesMap || {}; // TODO unified as dataTypesMap
     const i18nInfo = options.i18nInfo || {};
     initApplicationConstructor(dataTypesMap, Vue);
     /**
      * read datatypes from template, then parse schema
-     * @param {*} schema 是前端用的 refSchema
+     * @param {*} schema is the refSchema used by the front end
      */
     Vue.prototype.$genInitFromSchema = genInitFromSchema;
     window.$genInitFromSchema = genInitFromSchema;
@@ -36,14 +36,14 @@ export default {
     } = Config.getFrontendVariables(options);
 
     const $g = {
-      // 用户信息
+      // User information
       userInfo: {},
-      // 国际化信息
+      // Internationalization information
       i18nInfo: i18nInfo,
-      // 前端全局变量
+      //Front-end global variables
       frontendVariables,
 
-      // 加
+      // add
       add(x, y) {
         if (typeof x !== "number" || typeof y !== "number") {
           return x + y;
@@ -58,7 +58,7 @@ export default {
         const yy = new Decimal(y + "");
         return xx.plus(yy).toNumber();
       },
-      // 减
+      // reduce
       minus(x, y) {
         if (!x) {
           x = 0;
@@ -70,7 +70,7 @@ export default {
         const yy = new Decimal(y + "");
         return xx.minus(yy).toNumber();
       },
-      // 乘
+      // take
       multiply(x, y) {
         if (!x) {
           x = 0;
@@ -82,7 +82,7 @@ export default {
         const yy = new Decimal(y + "");
         return xx.mul(yy).toNumber();
       },
-      // 除
+      // remove
       divide(x, y) {
         if (!x) {
           x = 0;
@@ -94,7 +94,7 @@ export default {
         const yy = new Decimal(y + "");
         return xx.div(yy).toNumber();
       },
-      // 相等
+      // equal
       isEqual(x, y) {
         // eslint-disable-next-line eqeqeq
         return x == y;
@@ -136,28 +136,28 @@ export default {
           function showError(error) {
             switch (error.code) {
               case error.PERMISSION_DENIED:
-                Config.Toast.error("用户禁止获取地理定位");
-                rej({ code: error.code, msg: "用户禁止获取地理定位" });
+                Config.Toast.error("User is prohibited from obtaining geolocation");
+                rej({ code: error.code, msg: "User is prohibited from obtaining geolocation" });
                 break;
               case error.POSITION_UNAVAILABLE:
-                Config.Toast.error("地理定位信息无法获取");
-                rej({ code: error.code, msg: "地理定位信息无法获取" });
+                Config.Toast.error("Geographical location information cannot be obtained");
+                rej({ code: error.code, msg: "Geographic location information cannot be obtained" });
                 break;
               case error.TIMEOUT:
-                Config.Toast.error("地理定位信息获取超时");
-                rej({ code: error.code, msg: "地理定位信息获取超时" });
+                Config.Toast.error("Geographic location information acquisition timeout");
+                rej({ code: error.code, msg: "Geographic location information acquisition timeout" });
                 break;
               case error.UNKNOWN_ERROR:
-                Config.Toast.error("未知错误");
-                rej({ code: error.code, msg: "未知错误" });
+                Config.Toast.error("Unknown error");
+                rej({ code: error.code, msg: "Unknown error" });
                 break;
             }
           }
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
           } else {
-            Config.Toast.error("当前系统不支持地理定位");
-            rej({ code: 666, msg: "当前系统不支持地理定位" });
+            Config.Toast.error("The current system does not support geolocation");
+            rej({ code: 666, msg: "The current system does not support geolocation" });
           }
         });
       },
@@ -207,7 +207,7 @@ export default {
         return navigator.language || navigator.userLanguage;
       },
       useDatabaseCallback() {
-        //  是这样调用的 $global.useDatabaseCallback()(__tableView_1_handleDataSourceLoad)
+        // This is how $global.useDatabaseCallback()(__tableView_1_handleDataSourceLoad) is called
         return function (loadFun, ...args) {
           let loadMap = databaseLoadFunMap.get(loadFun);
           const cacheKey = $g.stringifyCurrentOnce([loadFun, ...args]);
@@ -227,10 +227,10 @@ export default {
           return loadMap.get(cacheKey);
         };
       },
-      // 自定义的解决循环引用的函数
+      // Custom function to solve circular references
       stringifyCurrentOnce(array) {
         const newArray = array.map((current) => {
-          // 只认current声明的key，其余的可能有vm，所以只认这几个属性
+          // Only recognize the key declared by current, the rest may have vm, so only recognize these attributes
           if (typeof current === "object" && current !== null) {
             return {
               item: current.item,
@@ -243,11 +243,11 @@ export default {
           return current;
         });
         
-        const seen = new WeakSet(); // 用于跟踪对象引用
+        const seen = new WeakSet(); // Used to track object references
         return JSON.stringify(newArray, (key, value) => {
           if (typeof value === "object" && value !== null) {
             if (seen.has(value)) {
-              // 如果已经序列化过这个对象，避免循环引用
+              // If the object has been serialized, avoid circular references
               return;
             }
             seen.add(value);
@@ -256,7 +256,7 @@ export default {
         });
       },
       /**
-       * 上报日志信息
+       * Report log information
        * @param {*} body 
        */
       async logReport(body) {
@@ -276,7 +276,7 @@ export default {
     Object.keys(porcessPorts).forEach((service) => {
       $global[service] = porcessPorts[service];
     });
-    new Vue({
+    new View({
       data: {
         $global,
       },
@@ -291,7 +291,7 @@ export default {
     // const enumsMap = options.enumsMap || {};
     // function createEnum(items) {
     //     const Enum = (key) => items[key];
-    //     Object.assign(Enum, items); // 如果items里含有{name:'**'}，赋值会报错，页面白屏，所以这里屏蔽
+    // Object.assign(Enum, items); // If items contains {name:'**'}, the assignment will report an error and the page will be blank, so it is blocked here
     //     return Enum;
     // }
     // Object.keys(enumsMap).forEach((enumKey) => {
@@ -299,37 +299,37 @@ export default {
     // });
 
     function isLooseEqualFn(obj1, obj2, cache = new Map()) {
-      // 检查对象是否相同
+      // Check if the objects are the same
       if (obj1 === obj2) {
         return true;
       }
-      // 对象是否已经比较过，解决循环依赖的问题
+      // Whether the object has been compared, to solve the problem of circular dependency
       if (cache.has(obj1) && cache.get(obj1) === obj2) {
         return true;
       }
-      // 判断类型相等
+      // Check if the types are equal
       if (typeof obj1 !== typeof obj2) {
         return false;
       }
-      // 判断数组长度或者对象属性数量一致
+      // Check if the array length or the number of object attributes is consistent
       const keys1 = Object.keys(obj1);
       const keys2 = Object.keys(obj2);
       if (keys1.length !== keys2.length) {
         return false;
       }
-      // 加入缓存中
+      // Add to cache
       cache.set(obj1, obj2);
-      // 比较属性中的每个值是否一致
+      // Compare each value in the attribute to see if it is consistent
       for (const key of keys1) {
         const val1 = obj1[key];
         const val2 = obj2[key];
-        // 递归
+        // recursion
         if (typeof val1 === "object" && typeof val2 === "object") {
           if (!isLooseEqualFn(val1, val2, cache)) {
             return false;
           }
         } else {
-          // 判断非对象的值是否一致
+          // Determine whether the value of non-object is consistent
           if (val1 !== val2) {
             return false;
           }
@@ -337,7 +337,7 @@ export default {
       }
       return true;
     }
-    // 判断两个对象是否相等，不需要引用完全一致
+    // Determine whether two objects are equal, without the need for exact reference consistency
     Vue.prototype.$isLooseEqualFn = isLooseEqualFn;
     const enumsMap = options.enumsMap || {};
     Vue.prototype.$enums = (key, value) => {
@@ -349,7 +349,7 @@ export default {
       }
     };
 
-    // 实体的 updateBy 和 deleteBy 需要提前处理请求参数
+    // The entity's updateBy and deleteBy require processing request parameters in advance
     function parseRequestDataType(root, _prop) {
       let value;
       try {
@@ -387,7 +387,7 @@ export default {
       }
     }
 
-    // 实体的 updateBy 和 deleteBy 需要提前处理请求参数
+    // The entity's updateBy and deleteBy require processing request parameters in advance
     function resolveRequestData(root) {
       if (!root) return;
       // console.log(root.concept)

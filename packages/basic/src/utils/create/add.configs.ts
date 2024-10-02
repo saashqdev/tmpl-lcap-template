@@ -41,7 +41,7 @@ export const httpError = {
   reject(err, params, requestInfo) {
     const { url, config = {} } = requestInfo;
     const { method, body = {}, headers = {} } = url;
-    // 处理code
+    // processing code
     if (err === "expired request") {
       throw err;
     }

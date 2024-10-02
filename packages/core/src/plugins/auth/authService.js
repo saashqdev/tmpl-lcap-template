@@ -58,7 +58,7 @@ export default {
         return userInfo;
       })
       .catch((e) => {
-        console.error("获取用户信息失败", e)
+        console.error("Failed to obtain user information", e)
         throw e;
       });
     
@@ -80,7 +80,7 @@ export default {
         })
         .then((result) => {
           let resources = [];
-          // 初始化权限项
+          //Initialize permission items
           this._map = new Map();
           if (Array.isArray(result)) {
             resources = result.filter(
@@ -93,7 +93,7 @@ export default {
           return resources;
         });
     } else {
-      // 这个是非下沉应用，调用的是Nuims的接口，此处需非常注意Resource大小写情况，开发时需关注相关测试用例是否覆盖
+      // This is a non-sinking application. It calls the interface of Nuims. You need to pay great attention to the capitalization of the Resource here. When developing, you need to pay attention to whether the relevant test cases are covered.
       userResourcesPromise = this.authService
         .GetUserResources({
           headers: getBaseHeaders(),
@@ -115,13 +115,13 @@ export default {
                   ResourceValue,
                   resourceType: ResourceType,
                   resourceValue: ResourceValue,
-                }); // 兼容大小写写法，留存大写，避免影响其他隐藏逻辑
+                }); // Compatible with uppercase and lowercase writing, retain uppercase to avoid affecting other hidden logic
               }
               return acc;
             },
             []
           );
-          // 初始化权限项
+          // Initialize permission items
           resources.forEach((resource) =>
             this._map.set(resource?.ResourceValue, resource)
           );
@@ -137,7 +137,7 @@ export default {
       const res = await this.lowauthInitService.getAppLoginTypes({
         query: {
           Action: "GetTenantLoginTypes",
-          Version: "2020-06-01",
+          Version: "2024-06-01",
           TenantName: window.appInfo.tenant,
         },
       });
@@ -149,7 +149,7 @@ export default {
       const res = await this.authService.getNuimsTenantLoginTypes({
         query: {
           Action: "GetTenantLoginTypes",
-          Version: "2020-06-01",
+          Version: "2024-06-01",
           TenantName: window.appInfo.tenant,
         },
       });
@@ -178,7 +178,7 @@ export default {
             headers: getBaseHeaders(),
           })
           .then(() => {
-            // 用户中心，去除认证和用户名信息
+            // User center, remove authentication and username information
             cookie.erase("authorization");
             cookie.erase("username");
           });
@@ -218,24 +218,24 @@ export default {
       headers: getBaseHeaders(),
     });
   },
-  // 处理数据的参数转化
+  // Process parameter conversion of data
   parse: qs.parse,
   stringify: qs.stringify,
   /**
-   * 权限服务是否初始化
+   * Whether the permission service is initialized
    */
   isInit() {
     return !!this._map;
   },
   /**
-   * 初始化权限服务
+   * Initialize permission service
    */
   init(domainName) {
     return this.getUserInfo().then(() => this.getUserResources(domainName));
   },
   /**
-   * 是否有权限
-   * @param {*} authPath 权限路径，如 /dashboard/entity/list
+   * Whether you have permission
+   * @param {*} authPath permission path, such as /dashboard/entity/list
    */
   has(authPath) {
     return (this._map && this._map.has(authPath)) || false;

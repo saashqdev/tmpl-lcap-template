@@ -181,7 +181,7 @@ importers:
       ts-jest:
         specifier: ^29.1.1
         version: 29.1.1(@babel/core@7.23.5)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.23.5))(jest@29.7.0(@types/node@20.11.24)(node-notifier@9.0.1))(typescript@5.3.3)
-      vusion-api:
+      kubevue-api:
         specifier: ^0.7.38
         version: 0.7.38
 
@@ -190,7 +190,7 @@ importers:
       '@lcap/core-template':
         specifier: workspace:*
         version: link:../core
-      '@vusion/utils':
+      '@kubevue/utils':
         specifier: ^0.4.9
         version: 0.4.11
       babel-polyfill:
@@ -269,7 +269,7 @@ importers:
       '@lcap/core-template':
         specifier: workspace:*
         version: link:../core
-      '@vusion/utils':
+      '@kubevue/utils':
         specifier: ^0.4.10
         version: 0.4.11
       babel-polyfill:
@@ -1709,10 +1709,10 @@ packages:
   '@vue/component-compiler-utils@3.3.0':
     resolution: {integrity: sha512-97sfH2mYNU+2PzGrmK2haqffDpVASuib9/w2/noxiFi31Z54hW+q3izKQXXQZSNhtiUpAI36uSuYepeBe4wpHQ==}
 
-  '@vusion/categories-db@0.1.2':
+  '@kubevue/categories-db@0.1.2':
     resolution: {integrity: sha512-shtOVcH/uvFxuzK2Cd9qtJ2kdAvO5NPgFkY39VAJSVELuGmP6wWYXOLSm/yV15bLJxWjNbyB81XP2vRLMfwwGg==}
 
-  '@vusion/utils@0.4.11':
+  '@kubevue/utils@0.4.11':
     resolution: {integrity: sha512-3n+fFmHEkgnMFZ+XwDmNMXHsyKTsFoyjYiH335rPipTbeJIO4bEAvedNMFdGPykt7FsMH8toMXgg3wVUjkIL+w==}
 
   '@webassemblyjs/ast@1.12.1':
@@ -2662,7 +2662,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     hasBin: true
 
-  create-vusion@0.5.14:
+  create-kubevue@0.5.14:
     resolution: {integrity: sha512-8ZNhGtkXVX8Ii2cJGeOj8C3g5r3xNGhtJOEv/1tuQksf6hSg5jBlaDaFRmuK+EgDs/6m1GPo369unFc9VFlz5w==}
     engines: {node: '>=8'}
     hasBin: true
@@ -6012,10 +6012,10 @@ packages:
     resolution: {integrity: sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==}
     deprecated: Vue 2 has reached EOL and is no longer actively maintained. See https://v2.vuejs.org/eol/ for more details.
 
-  vusion-api@0.6.30:
+  kubevue-api@0.6.30:
     resolution: {integrity: sha512-o718qRdIOt6rDLOeiJbcoN6wtnINwZFH42BptDjOCMCqZMNNV0ZoZvHdGX5JkgK5qtsKtxBTPGqXWAijYq5Y6w==}
 
-  vusion-api@0.7.38:
+  kubevue-api@0.7.38:
     resolution: {integrity: sha512-Iz8uZf7dY6sX0bHKer2JIygUWph7QgSPy2SRKY0Oiz5FnLYWJevxS7IMroScX5JzxaUKfPYvpqJfupSutRFMvg==}
 
   w3c-xmlserializer@4.0.0:
@@ -7835,9 +7835,9 @@ snapshots:
       - walrus
       - whiskers
 
-  '@vusion/categories-db@0.1.2': {}
+  '@kubevue/categories-db@0.1.2': {}
 
-  '@vusion/utils@0.4.11':
+  '@kubevue/utils@0.4.11':
     dependencies:
       lodash: 4.17.21
 
@@ -8749,9 +8749,9 @@ snapshots:
       - supports-color
       - ts-node
 
-  create-vusion@0.5.14:
+  create-kubevue@0.5.14:
     dependencies:
-      '@vusion/categories-db': 0.1.2
+      '@kubevue/categories-db': 0.1.2
       chalk: 2.4.2
       commander: 2.20.3
       compressing: 1.10.0
@@ -8761,7 +8761,7 @@ snapshots:
       semver: 6.3.1
       shelljs: 0.8.5
       update-notifier: 3.0.1
-      vusion-api: 0.6.30
+      kubevue-api: 0.6.30
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -10676,7 +10676,7 @@ snapshots:
       chalk: 2.4.2
       chokidar: 3.5.3
       commander: 2.20.3
-      create-vusion: 0.5.14
+      create-kubevue: 0.5.14
       crypto-js: 4.2.0
       detect-port: 1.5.1
       didyoumean: 1.2.2
@@ -10699,7 +10699,7 @@ snapshots:
       semver: 5.7.2
       shelljs: 0.8.5
       update-notifier: 2.5.0
-      vusion-api: 0.6.30
+      kubevue-api: 0.6.30
       yaml: 1.10.2
     transitivePeerDependencies:
       - debug
@@ -12526,7 +12526,7 @@ snapshots:
 
   vue@2.6.12: {}
 
-  vusion-api@0.6.30:
+  kubevue-api@0.6.30:
     dependencies:
       '@babel/core': 7.23.5
       '@babel/generator': 7.23.5
@@ -12571,7 +12571,7 @@ snapshots:
       - debug
       - supports-color
 
-  vusion-api@0.7.38:
+  kubevue-api@0.7.38:
     dependencies:
       '@babel/core': 7.23.5
       '@babel/generator': 7.23.5

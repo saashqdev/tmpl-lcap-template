@@ -21,7 +21,7 @@ const dateFormat = (value, formatter = 'yyyy-MM-dd HH:mm:ss') => {
     return format(timestamp, formatter);
 };
 
-const timeFormat = (value, type = 'day') => { // type 取值 day、minute, 默认day
+const timeFormat = (value, type = 'day') => { // type takes values   day, minute, default day
     const timestamp = formatDate(value);
     if (timestamp === '-') {
         return timestamp;
@@ -29,12 +29,12 @@ const timeFormat = (value, type = 'day') => { // type 取值 day、minute, 默�
     const today = startOfToday();
     let [day, hm] = format(timestamp, 'yyyy-MM-dd HH:mm').split(' ');
     if (isSameDay(timestamp, today)) {
-        return '今天 ' + hm;
+        return 'today' + hm;
     }
     if (isYesterday(timestamp)) {
-        day = '昨天';
+        day = 'yesterday';
     } else if (isSameDay(addDays(today, -2), timestamp)) {
-        day = '前天';
+        day = 'the day before yesterday';
     }
     if (type === 'day') {
         return day;

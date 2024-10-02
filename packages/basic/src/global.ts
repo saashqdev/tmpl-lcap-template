@@ -1,6 +1,6 @@
 import _set from 'lodash/set';
 
-// 用来mock Vue的构造函数
+// Constructor used to mock Vue
 const GlobalFn = window.Vue || function MockVue() {}
 
 export default GlobalFn;

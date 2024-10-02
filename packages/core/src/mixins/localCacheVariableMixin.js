@@ -7,7 +7,7 @@ const ACTION_LOCAL_CACHE_VARIABLE_TYPE = {
   UNDEFINED: 'undefined',
 };
 
-// 定义一个名为 visibilityMixin 的全局混入对象
+// Define a global mixin named visibilityMixin
 export const localCacheVariableMixin = {
   beforeMount() {
     this.actionLocalCacheVariable(ACTION_LOCAL_CACHE_VARIABLE_TYPE.GET);
@@ -38,23 +38,23 @@ export const localCacheVariableMixin = {
 
       for (const localCacheVariableKey of localCacheVariableSet) {
         switch (type) {
-          // 从 localCache 中获取数据
+          // Get data from localCache
           case ACTION_LOCAL_CACHE_VARIABLE_TYPE.GET:
             {
               const localCacheValue = storage.get(localCacheVariableKey, true);
-              // 若存在 localCacheValue 则同步到 frontendVariables
+              // If localCacheValue exists, synchronize to frontendVariables
               if (localCacheValue || typeof localCacheValue === 'boolean' || typeof localCacheValue === 'number' || localCacheValue === '') {
                 frontendVariables[localCacheVariableKey] = localCacheValue;
               }
             }
 
             break;
-          // 将 frontendVariables 中的数据同步到 localCache 触发时机 应用销毁前 & 应用切换到后台
+          // Synchronize the data in frontendVariables to localCache. The trigger time is before the application is destroyed & the application switches to the background.
           case ACTION_LOCAL_CACHE_VARIABLE_TYPE.UPDATE:
             {
               const currentValue = frontendVariables[localCacheVariableKey];
 
-              // 只同步写入非空值 避免 local 过多冗余数据
+              // Only write non-null values   synchronously to avoid excessive local redundant data
               if (isEmpty(currentValue) && typeof currentValue !== 'boolean' && typeof currentValue !== 'number' && typeof currentValue !== 'object' && currentValue !== '') {
                 storage.remove(localCacheVariableKey);
               } else {

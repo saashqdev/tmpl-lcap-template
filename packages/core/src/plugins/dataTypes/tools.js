@@ -19,25 +19,25 @@ function tryJSONParse(str) {
 export const typeDefinitionMap = new Map();
 const typeMap = new Map();
 
-// 生成typeKey
+// Generate typeKey
 export function genSortedTypeKey(typeAnnotation) {
   const { typeKind, typeNamespace, typeName, typeArguments, properties } =
     typeAnnotation || {};
   const typeKeyArr = [];
   if (typeKind === "union") {
-    // 联合类型
+    // Union type
     if (Array.isArray(typeArguments)) {
-      // 按返回的每个具体项排序
+      // Sort by each specific item returned
       const childTypeArgs = typeArguments
         .map((typeArg) => genSortedTypeKey(typeArg))
         .sort((name1, name2) => (name1 > name2 ? 1 : -1));
       typeKeyArr.push(childTypeArgs.join(" | "));
     }
   } else if (typeKind === "anonymousStructure") {
-    // 匿名数据结构
+    // Anonymous data structure
     typeKeyArr.push("{");
     if (Array.isArray(properties)) {
-      // 按匿名数据结构的key排序
+      // Sort by key of anonymous data structure
       const childTypeArgs = properties
         .sort(({ name: name1 }, { name: name2 }) => (name1 > name2 ? 1 : -1))
         .map((typeArg) => {
@@ -57,7 +57,7 @@ export function genSortedTypeKey(typeAnnotation) {
     if (typeKind === "generic") {
       typeKeyArr.push("<");
       if (Array.isArray(typeArguments)) {
-        // 必须按typeArguments定义的顺序，否则实参位置不对
+        // The order defined by typeArguments must be followed, otherwise the actual parameters are in the wrong position
         const childTypeArgs = typeArguments.map((typeArg) =>
           genSortedTypeKey(typeArg)
         );
@@ -69,7 +69,7 @@ export function genSortedTypeKey(typeAnnotation) {
   return typeKeyArr.join("");
 }
 
-// 生成构造函数
+// Generate constructor
 function genConstructor(typeKey, definition, Vue) {
   if (typeMap[typeKey]) {
     return typeMap[typeKey];
@@ -79,7 +79,7 @@ function genConstructor(typeKey, definition, Vue) {
       definition || {};
     let propList = properties;
     if (typeKind === "generic") {
-      // List和Map属于特殊范型
+      // List and Map belong to special types
       if (
         typeNamespace === "nasl.collection" &&
         ["List", "Map"].includes(typeName)
@@ -90,18 +90,18 @@ function genConstructor(typeKey, definition, Vue) {
       typeNamespace && typeArr.push(typeNamespace);
       typeName && typeArr.push(typeName);
       const genericTypeKey = typeArr.join(".");
-      // 范型定义
+      // Generic definition
       const genericDefinition = typeDefinitionMap[genericTypeKey];
       if (genericDefinition) {
         const { typeParams, properties } = genericDefinition || {};
         if (Array.isArray(properties)) {
-          // 用实参替换形参
+          // Replace formal parameters with actual parameters
           propList = properties.map((property) => {
             const actualProp = {
               ...property,
             };
             const { typeAnnotation } = property || {};
-            // 类型形参
+            // Type parameters
             const index = typeParams.findIndex(
               (typeParam) => typeParam?.name === typeAnnotation?.typeName
             );
@@ -116,7 +116,7 @@ function genConstructor(typeKey, definition, Vue) {
     let code = `
             const level = params.level;
             const defaultValue = params.defaultValue;
-            // 默认值是个对象
+            // The default value is an object
             if (defaultValue && Object.prototype.toString.call(defaultValue) === '[object Object]') {
                 Object.assign(this, defaultValue);
             }
@@ -135,7 +135,7 @@ function genConstructor(typeKey, definition, Vue) {
         const typeDefinition = typeDefinitionMap[typeKey];
         const { concept } = typeDefinition || {};
         let parsedValue = defaultValue;
-        // 设置成null，才能同步给后端清除该值，但是null对checkbox组件是一种特殊状态
+        // Set it to null to clear the value to the backend synchronously, but null is a special state for the checkbox component
         if (typeKey === "nasl.core.Boolean") {
           parsedValue = defaultValue ?? undefined;
         }
@@ -147,8 +147,8 @@ function genConstructor(typeKey, definition, Vue) {
           concept !== "Enum" &&
           !["union"].includes(typeKind)
         ) {
-          // 一些特殊情况，特殊处理成undefined
-          // 1.defaultValue在nasl节点上错误得赋值给了空制符串
+          // Some special cases, special treatment into undefined
+          // 1.defaultValue is incorrectly assigned to an empty string on the nasl node
           if ([""].includes(defaultValue)) {
             parsedValue = undefined;
           } else {
@@ -182,7 +182,7 @@ function genConstructor(typeKey, definition, Vue) {
     // eslint-disable-next-line no-new-func
     const fn = Function("Vue", "params", code).bind(null, Vue);
 
-    // fn设置name
+    // fn sets name
     Object.defineProperty(fn, "name", {
       value: "NaslTypeConstructor",
     });
@@ -192,7 +192,7 @@ function genConstructor(typeKey, definition, Vue) {
   }
 }
 
-// 初始化整个应用的构造器
+// Initialize the constructor of the entire application
 export function initApplicationConstructor(dataTypesMap, Vue) {
   if (dataTypesMap) {
     for (const typeKey in dataTypesMap) {
@@ -201,7 +201,7 @@ export function initApplicationConstructor(dataTypesMap, Vue) {
   }
 }
 
-// 判断字符串的具体类型
+// Determine the specific type of the string
 function judgeStrType(str) {
   const regMap = {
     "nasl.core.Date": /^\d{1,4}(\/|-)\d{1,2}(\/|-)\d{1,2}$/,
@@ -218,7 +218,7 @@ function judgeStrType(str) {
   }
 }
 
-// 判断 变量 是否属于 类型
+// Determine whether the variable is of type
 export function isInstanceOf(variable, typeKey) {
   const typeConstructor = typeMap[typeKey];
   const typeDefinition = typeDefinitionMap[typeKey];
@@ -235,12 +235,12 @@ export function isInstanceOf(variable, typeKey) {
     }
     return matchedIndex !== -1;
   } else if (concept === "Enum") {
-    // 枚举
+    // Enumeration
     const { enumItems } = typeDefinition;
-    if (Array.isArray(enumItems)) {
+    if ( Array . isArray ( enumItems )) {
       if (varStr === "[object String]") {
-        // 当前值在枚举中存在
-        // 枚举值支持integer，改为不严格判断
+        // The current value exists in the enumeration
+        // Enumeration values   support integer, change to non-strict judgment
         const enumItemIndex = enumItems.findIndex(
           (enumItem) => variable == enumItem.value
         );
@@ -250,12 +250,12 @@ export function isInstanceOf(variable, typeKey) {
           (varItem) =>
             !isInstanceOf(varItem.value, genSortedTypeKey(typeDefinition))
         );
-        // 当前枚举数组与定义完全匹配
+        // The current enumeration array exactly matches the definition
         return enumItemIndex === -1;
       }
     }
   } else if (isPrimitive) {
-    // 基础类型
+    // Basic type
     if (varStr === "[object String]") {
       const actualStrType = judgeStrType(variable);
       if (actualStrType) {
@@ -283,14 +283,14 @@ export function isInstanceOf(variable, typeKey) {
     ) {
       return false;
     }
-    // 特殊范型List/Map
+    // Special type List/Map
     let keyChecked = true;
-    // 期望的值的类型
+    // Expected value type
     const valueTypeArg =
       typeName === "List" ? typeArguments?.[0] : typeArguments?.[1];
-    // Map存在key类型校验不通过校验的情况
+    // There is a situation where the Map key type verification fails the verification
     if (typeName === "Map") {
-      // 期望的key类型
+      // Expected key type
       const keyTypeArg = typeArguments?.[0];
       for (const key in variable) {
         if (!isInstanceOf(key, genSortedTypeKey(keyTypeArg))) {
@@ -298,13 +298,13 @@ export function isInstanceOf(variable, typeKey) {
         }
       }
     }
-    // key校验通过，再校验value是否符合
+    // key verification passed, then check whether the value meets the requirements
     if (keyChecked) {
       if (typeName === "List" && Array.isArray(variable)) {
         const failedIndex = variable.findIndex(
           (varItem) => !isInstanceOf(varItem, genSortedTypeKey(valueTypeArg))
         );
-        // 当前数组为空或者与定义完全匹配
+        // The current array is empty or matches the definition exactly
         return variable.length === 0 || failedIndex === -1;
       } else if (typeName === "Map" && variable) {
         let checked = true;
@@ -323,7 +323,7 @@ export function isInstanceOf(variable, typeKey) {
   return false;
 }
 
-// 类型定义是否属于基础类型
+// Whether the type definition belongs to the basic type
 const isDefPrimitive = (typeKey) =>
   [
     "nasl.core.Boolean",
@@ -338,7 +338,7 @@ const isDefPrimitive = (typeKey) =>
     "nasl.core.Email",
   ].includes(typeKey);
 
-// 类型定义是否属于字符串大类
+// Whether the type definition belongs to the string category
 export const isDefString = (typeKey) =>
   [
     "nasl.core.String",
@@ -350,11 +350,11 @@ export const isDefString = (typeKey) =>
     "nasl.core.Email",
   ].includes(typeKey);
 
-// 类型定义是否属于数字大类
+// Whether the type definition belongs to the digital category
 export const isDefNumber = (typeKey) =>
   ["nasl.core.Long", "nasl.core.Decimal"].includes(typeKey);
 
-// 类型定义是否属于数组
+// Whether the type definition belongs to an array
 export const isDefList = (typeDefinition) => {
   const { typeKind, typeNamespace, typeName } = typeDefinition || {};
   return (
@@ -364,7 +364,7 @@ export const isDefList = (typeDefinition) => {
   );
 };
 
-// 类型定义是否属于Map
+// Whether the type definition belongs to Map
 export const isDefMap = (typeDefinition) => {
   const { typeKind, typeNamespace, typeName } = typeDefinition || {};
   return (
@@ -374,8 +374,8 @@ export const isDefMap = (typeDefinition) => {
   );
 };
 
-// 值是否属于基础类型
-// 数字（number）、字符串（string）、布尔值（boolean）、undefined、null、对象（Object）
+// Is the value of a basic type?
+// Number, string, boolean, undefined, null, object
 const isValPrimitive = (value) => {
   const typeStr = Object.prototype.toString.call(value);
   return ["[object Boolean]", "[object Number]", "[object String]"].includes(
@@ -384,20 +384,20 @@ const isValPrimitive = (value) => {
 };
 
 /**
- * 判断类型是否匹配
- * @param {*} typeAnnotation 期望类型
- * @param {*} value 值
+ * Check if the type matches
+ * @param {*} typeAnnotation expected type
+ * @param {*} value
  */
 const isTypeMatch = (typeKey, value) => {
-  const isPrimitive = isDefPrimitive(typeKey); // 类型字符串
+  const isPrimitive = isDefPrimitive(typeKey); // type string
   const typeAnnotation = typeDefinitionMap[typeKey];
-  const isValuePrimitive = isValPrimitive(value); // 类型字符串
+  const isValuePrimitive = isValPrimitive(value); // type string
   const typeStr = Object.prototype.toString.call(value);
   const { concept } = typeAnnotation || {};
   let isMatch =
     isPrimitive === isValuePrimitive ||
     (concept === "Enum" && typeStr === "[object String]");
-  // 大类型匹配的基础上继续深入判断
+  // Continue to make in-depth judgments based on the large type matching
   if (isMatch) {
     if (isPrimitive) {
       if (
@@ -413,15 +413,15 @@ const isTypeMatch = (typeKey, value) => {
 };
 
 /**
- * 初始化变量
- * 基础类型不再进初始化方法
+ * Initialize variables
+ * Basic types no longer enter initialization methods
  * @param {*} typeKey
  * @param {*} defaultValue
  * @param {*} parentLevel
  * @returns
  */
 export const genInitData = (typeKey, defaultValue, parentLevel) => {
-  // 已经实例化过的值，直接返回
+  // The instantiated value is returned directly
   if (isInstanceOf(defaultValue, typeKey)) {
     return defaultValue;
   }
@@ -431,7 +431,7 @@ export const genInitData = (typeKey, defaultValue, parentLevel) => {
   }
   const defaultValueType = Object.prototype.toString.call(defaultValue);
   let parsedValue = defaultValue;
-  // 设置成null，才能同步给后端清除该值，但是null对checkbox组件是一种特殊状态
+  // Set it to null to clear the value to the backend synchronously, but null is a special state for the checkbox component
   if (typeKey === "nasl.core.Boolean") {
     parsedValue = defaultValue ?? undefined;
   }
@@ -452,8 +452,8 @@ export const genInitData = (typeKey, defaultValue, parentLevel) => {
     concept !== "Enum" &&
     !["union"].includes(typeKind)
   ) {
-    // 一些特殊情况，特殊处理成undefined
-    // 1.defaultValue在nasl节点上错误得赋值给了空制符串
+    // Some special cases, special treatment into undefined
+    // 1.defaultValue is incorrectly assigned to an empty string on the nasl node
     if ([""].includes(defaultValue)) {
       parsedValue = undefined;
     } else {
@@ -467,7 +467,7 @@ export const genInitData = (typeKey, defaultValue, parentLevel) => {
     return;
   }
 
-  // nasl.interface下的类型无法通过构造器构造，因此直接返回
+  // The type under nasl.interface cannot be constructed through the constructor, so it is returned directly
   if (typeKey?.startsWith?.('nasl.interface.')) {
     return parsedValue;
   }
@@ -479,10 +479,10 @@ export const genInitData = (typeKey, defaultValue, parentLevel) => {
       typeNamespace === "nasl.collection" &&
       ["List", "Map"].includes(typeName)
     ) {
-      // 特殊范型List/Map
+      //Special type List/Map
       let initVal = typeName === "List" ? [] : {};
       if (parsedValue) {
-        // valueTypeAnnotation可能会由于一些情况出现空，因此不能加上对typeArguments数组的整体容错判断
+        // valueTypeAnnotation may be empty in some cases, so the overall fault tolerance judgment of the typeArguments array cannot be added
         const valueTypeAnnotation =
           typeName === "List" ? typeArguments?.[0] : typeArguments?.[1];
         const sortedTypeKey = genSortedTypeKey(valueTypeAnnotation);
@@ -531,8 +531,8 @@ export const genInitData = (typeKey, defaultValue, parentLevel) => {
 };
 
 /**
- * 生成缩进
- * @param tabSize 缩进次数
+ * Generate indentation
+ * @param tabSize number of indents
  * @returns
  */
 function indent(tabSize) {
@@ -540,12 +540,12 @@ function indent(tabSize) {
 }
 
 /**
- * 变量转字符串
+ * Convert variable to string
  * @param {*} variable
  * @param {*} typeKey
  * @param {*} timeZone
  * @param {*} tabSize
- * @param {Set} collection 收集的已处理的对象
+ * @param {Set} collection The processed objects collected
  * @returns
  */
 export const toString = (
@@ -558,9 +558,9 @@ export const toString = (
   if (variable instanceof Error) {
     return variable;
   }
-  // null 或 undefined 返回 "（空）"
+  // null or undefined returns "(empty)"
   if ([undefined, null].includes(variable) || typeKey === "nasl.core.Null") {
-    // 空
+    // null
     if (tabSize > 0) {
       return "（空）";
     } else {
@@ -570,9 +570,9 @@ export const toString = (
   let str = "";
   const isPrimitive = isDefPrimitive(typeKey);
   if (isPrimitive) {
-    // 基础类型
+    // Basic type
     str = "" + variable;
-    // >=8位有效数字时，按小e
+    // >= 8 valid digits, press small e
     if (["nasl.core.Double", "nasl.core.Decimal"].includes(typeKey)) {
       const varArr = str.split(".");
       let count = 0;
@@ -581,20 +581,20 @@ export const toString = (
       });
       const maxLen = 8;
       if (count >= maxLen) {
-        // 去掉+是为了跟后端保持统一
+        // Remove + to keep consistent with the backend
         // str = (+variable)?.toExponential?.().replace?.('e+', 'e');
         str = variable;
       }
     }
 
-    // 日期时间处理
+    // Date and time processing
     if (typeKey === "nasl.core.Date") {
       str = momentTZ
         .tz(safeNewDate(variable), getAppTimezone(tz))
         .format("YYYY-MM-DD");
     } else if (typeKey === "nasl.core.Time") {
-      const timeRegex = /^([01]?\d|2[0-3])(?::([0-5]?\d)(?::([0-5]?\d))?)?$/;
-      // 纯时间 12:30:00
+      const timeRegex = /^([01]?\d|2[0-3])(?::([0-5]?\d)(?::([0-5]?\d))? )?$/;
+      // Pure time 12:30:00
       if (timeRegex.test(variable)) {
         const match = variable.match(timeRegex);
         const varArr = [];
@@ -640,7 +640,7 @@ export const toString = (
           str = variable.slice(0, maxLen) + "...";
         }
       }
-      // 是否属于字符串大类
+      // Whether it belongs to the string category
       if (isDefString(typeKey)) {
         str = `"${str}"`;
       }
@@ -674,7 +674,7 @@ export const toString = (
       }
     } else if (concept === "Enum") {
       if (Array.isArray(enumItems) && enumItems.length) {
-        // 改为不严格判断，枚举值支持数字类型
+        //Change to non-strict judgment, enumeration value supports numeric type
         const enumItem = enumItems.find(
           (enumItem) => variable == enumItem.value
         );
@@ -688,7 +688,7 @@ export const toString = (
         }
       }
     } else if (["TypeAnnotation", "Structure", "Entity"].includes(concept)) {
-      // 复合类型
+      // Composite type
       if (collection.has(variable)) {
         str = "";
         if (isDefList(typeDefinition)) {
@@ -766,7 +766,7 @@ export const toString = (
             }
           }
         } else {
-          // 处理一些范型数据结构的情况
+          // Handle some cases of generic data structures
           if (typeKind === "generic") {
             const genericTypeKey = `${typeNamespace}.${typeName}`;
             const genericTypeDefinition = typeDefinitionMap[genericTypeKey];
@@ -860,18 +860,18 @@ export const toString = (
 // yyyy/MM/dd HH:mm:ss
 // yyyy.MM.dd HH:mm:ss
 
-const DateReg =
+const DataReg =
   /(^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$)|(^[1-9]\d{3}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])$)|(^[1-9]\d{3}\.(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])$)/;
 const TimeReg = /^(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
 const DateTimeReg =
   /(^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$)|^[1-9]\d{3}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$|^[1-9]\d{3}\.(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
 const FloatNumberReg = /^(-?\d+)(\.\d+)?$/;
-// (长)整型
+// (long) integer
 const IntegerReg = /^-?\d+$/;
 
 /**
- * 判断字符串日期是否合法
- * yyyy-MM-dd yyyy/MM/dd HH:mm:ss yyyy.MM.dd 3种格式
+ * Determine whether the string date is legal
+ * yyyy-MM-dd yyyy/MM/dd HH:mm:ss yyyy.MM.dd 3 formats
  * @param {*} dateString
  * @returns
  */
@@ -879,7 +879,7 @@ function isValidDate(dateString, reg) {
   if (!reg.test(dateString)) {
     return false;
   }
-  // 验证日期是否真实存在
+  // Verify that the date actually exists
   const date = safeNewDate(dateString);
   if (date.toString() === "Invalid Date") {
     return false;
@@ -910,7 +910,7 @@ export const fromString = (variable, typeKey) => {
   const typeDefinition = typeDefinitionMap[typeKey];
   const isPrimitive = isDefPrimitive(typeKey);
   const { typeName } = typeDefinition || {};
-  // 日期
+  // date
   if (typeName === "DateTime" && isValidDate(variable, DateTimeReg)) {
     const date = safeNewDate(variable);
     const outputDate = formatISO(date, {
@@ -924,14 +924,14 @@ export const fromString = (variable, typeKey) => {
     // ???
     return moment(safeNewDate("2022-01-01 " + variable)).format("HH:mm:ss");
   }
-  // 浮点数
+  // Floating point number
   else if (
     ["Decimal", "Double"].includes(typeName) &&
     FloatNumberReg.test(variable)
   ) {
     return parseFloat(+variable);
   }
-  // 整数
+  // integer
   else if (
     ["Integer", "Long"].includes(typeName) &&
     IntegerReg.test(variable)
@@ -945,16 +945,16 @@ export const fromString = (variable, typeKey) => {
       return numberVar;
     }
   }
-  // 布尔
+  // Boolean
   else if (typeName === "Boolean") {
     if (["true", "false"].includes(variable)) {
       return JSON.parse(variable);
     }
   }
-  toastAndThrowError(`${typeName}格式不正确`);
+  toastAndThrowError(`${typeName} is not in the correct format`);
 };
 export function toastAndThrowError(err) {
-  // 全局提示toast
+  // Global prompt toast
   Config.Toast.error(err);
   console.log(err);
   throw new Error(err);

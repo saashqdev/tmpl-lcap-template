@@ -24,7 +24,7 @@ function dependencies(el, binding, vnode) {
     return;
   }
 
-  vueIns[action](); // 执行依赖动作
+  vueIns[action](); // Execute dependent actions
 }
 
 export default {

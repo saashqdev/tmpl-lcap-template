@@ -9,7 +9,7 @@ module.exports = {
 
         config.resolve.alias['@lcap/pc-ui$'] = path.resolve(__dirname, 'node_modules/@lcap/pc-ui/dist-theme/index.js');
         config.resolve.alias['@lcap/pc-ui/css$'] = path.resolve(__dirname, 'node_modules/@lcap/pc-ui/dist-theme/index.css');
-        config.resolve.alias['cloud-ui.vusion'] = '@lcap/pc-ui';
+        config.resolve.alias['cloud-ui.kubevue'] = '@lcap/pc-ui';
 
         if (process.env.NODE_ENV === 'production') {
             config.devtool = false;

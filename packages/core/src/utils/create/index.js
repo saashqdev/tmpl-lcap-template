@@ -63,7 +63,7 @@ const foramtCookie = (cookieStr) => {
 /**
  * 目前主要测试的是 get 请求
  * 图片，文件，和文件流形式的下载
- * https://raw.githubusercontent.com/vusion/cloud-ui/master/src/assets/images/1.jpg
+ * https://raw.githubusercontent.com/kubevue/cloud-ui/master/src/assets/images/1.jpg
  * 支持 query 参数
  */
 function download(url) {

@@ -42,5 +42,5 @@ jobs:
 
   call-giselle:
     needs: build
-    uses: saashqdev/giselle/.github/workflows/release-lcap-template.yml@master
+    uses: saashqdev/tmpl-giselle/.github/workflows/release-lcap-template.yml@main
     secrets: inherit

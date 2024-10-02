@@ -31,7 +31,7 @@ export const sseRequester = function (requestInfo) {
     ...options,
     body: JSON.stringify(rest),
     signal: controller.signal,
-    openWhenHidden: true, // 当窗口被隐藏时，阻止再次发送请求
+    openWhenHidden: true, // Prevent requests from being sent again when the window is hidden
     onmessage: formatMessage,
     onclose: onClose,
     onopen: async (response) => {

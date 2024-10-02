@@ -21,7 +21,7 @@ export const getBaseHeaders = () => {
 let userInfoPromise = null;
 let userResourcesPromise = null;
 
-// FIXME 替换成真实类型
+// FIXME replaced with real type
 export type NASLUserInfo = { 
   UserName: string;
   UserId: string;
@@ -107,7 +107,7 @@ const Service: IService = {
         })
         .then((result) => {
           let resources = [];
-          // 初始化权限项
+          // Initialize permission items
           _map = new Map();
           if (Array.isArray(result)) {
             resources = result.filter(
@@ -120,7 +120,7 @@ const Service: IService = {
           return resources;
         });
     } else {
-      // 这个是非下沉应用，调用的是Nuims的接口，此处需非常注意Resource大小写情况，开发时需关注相关测试用例是否覆盖
+      // This is a non-sinking application. It calls the interface of Nuims. You need to pay great attention to the capitalization of the Resource here. When developing, you need to pay attention to whether the relevant test cases are covered.
       userResourcesPromise = authService
         .GetUserResources({
           headers: getBaseHeaders(),
@@ -142,13 +142,13 @@ const Service: IService = {
                   ResourceValue,
                   resourceType: ResourceType,
                   resourceValue: ResourceValue,
-                }); // 兼容大小写写法，留存大写，避免影响其他隐藏逻辑
+                }); // Compatible with uppercase and lowercase writing, retain uppercase to avoid affecting other hidden logic
               }
               return acc;
             },
             []
           );
-          // 初始化权限项
+          // Initialize permission items
           resources.forEach((resource) =>
             _map.set(resource?.ResourceValue, resource)
           );
@@ -164,7 +164,7 @@ const Service: IService = {
       const res = await lowauthService.getAppLoginTypes({
         query: {
           Action: "GetTenantLoginTypes",
-          Version: "2020-06-01",
+          Version: "2024-06-01",
           TenantName: window.appInfo.tenant,
         },
       });
@@ -176,7 +176,7 @@ const Service: IService = {
       const res = await authService.getNuimsTenantLoginTypes({
         query: {
           Action: "GetTenantLoginTypes",
-          Version: "2020-06-01",
+          Version: "2024-06-01",
           TenantName: window.appInfo.tenant,
         },
       });
@@ -205,7 +205,7 @@ const Service: IService = {
             headers: getBaseHeaders(),
           })
           .then(() => {
-            // 用户中心，去除认证和用户名信息
+            // User center, remove authentication and username information
             cookie.erase("authorization");
             cookie.erase("username");
           });
@@ -245,24 +245,24 @@ const Service: IService = {
       headers: getBaseHeaders(),
     });
   },
-  // 处理数据的参数转化
+  // Process parameter conversion of data
   parse: qs.parse,
   stringify: qs.stringify,
   /**
-   * 权限服务是否初始化
+   * Whether the permission service is initialized
    */
   isInit() {
     return !!_map;
   },
   /**
-   * 初始化权限服务
+   * Initialize permission service
    */
   init(domainName) {
     return this.getUserInfo().then(() => this.getUserResources(domainName));
   },
   /**
-   * 是否有权限
-   * @param {*} authPath 权限路径，如 /dashboard/entity/list
+   * Whether you have permission
+   * @param {*} authPath permission path, such as /dashboard/entity/list
    */
   has(authPath) {
     return (_map && _map.has(authPath)) || false;

@@ -20,11 +20,11 @@ function initDataTypes(options) {
     getFrontendVariables(options);
 
   const $global = {
-    // 用户信息
+    // User information
     userInfo: {},
-    // 国际化信息
+    // Internationalization information
     i18nInfo: i18nInfo,
-    // 前端全局变量
+    // Front-end global variables
     frontendVariables,
 
     ...Utils,
@@ -42,7 +42,7 @@ function initDataTypes(options) {
   Global.prototype.$global = $global;
   Global.prototype.$localCacheVariableSet = localCacheVariableSet;
   Global.prototype.$isInstanceOf = isInstanceOf;
-  // 判断两个对象是否相等，不需要引用完全一致
+  // Determine whether two objects are equal, without the reference being exactly the same
   Global.prototype.$isLooseEqualFn = isLooseEqualFn;
   Global.prototype.$resolveRequestData = resolveRequestData;
 
@@ -72,7 +72,7 @@ function getFrontendVariables(options) {
     options.frontendVariables.forEach((frontendVariable) => {
       const { name, typeAnnotation, defaultValueFn, defaultCode, localCache } =
         frontendVariable;
-      localCache && localCacheVariableSet.add(name); // 本地存储的全局变量集合
+      localCache && localCacheVariableSet.add(name); // A collection of locally stored global variables
       let defaultValue = defaultCode?.code;
       if (
         Object.prototype.toString.call(defaultValueFn) === "[object Function]"
@@ -92,37 +92,37 @@ function getFrontendVariables(options) {
 }
 
 function isLooseEqualFn(obj1, obj2, cache = new Map()) {
-  // 检查对象是否相同
+  // Check if the objects are the same
   if (obj1 === obj2) {
     return true;
   }
-  // 对象是否已经比较过，解决循环依赖的问题
+  // Whether the objects have been compared to solve the problem of circular dependency
   if (cache.has(obj1) && cache.get(obj1) === obj2) {
     return true;
   }
-  // 判断类型相等
+  // Determine type equality
   if (typeof obj1 !== typeof obj2) {
     return false;
   }
-  // 判断数组长度或者对象属性数量一致
+  // Determine whether the array length or the number of object attributes is consistent
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
   if (keys1.length !== keys2.length) {
     return false;
   }
-  // 加入缓存中
+  // Add to cache
   cache.set(obj1, obj2);
-  // 比较属性中的每个值是否一致
+  // Compare each value in the attribute to see if it is consistent
   for (const key of keys1) {
     const val1 = obj1[key];
     const val2 = obj2[key];
-    // 递归
+    // recursion
     if (typeof val1 === "object" && typeof val2 === "object") {
       if (!isLooseEqualFn(val1, val2, cache)) {
         return false;
       }
     } else {
-      // 判断非对象的值是否一致
+      // Determine whether the values   of non-objects are consistent
       if (val1 !== val2) {
         return false;
       }
@@ -131,7 +131,7 @@ function isLooseEqualFn(obj1, obj2, cache = new Map()) {
   return true;
 }
 
-// 实体的 updateBy 和 deleteBy 需要提前处理请求参数
+// The entity's updateBy and deleteBy need to process the request parameters in advance
 function resolveRequestData(root) {
   if (!root) return;
   // console.log(root.concept)
@@ -159,7 +159,7 @@ function resolveRequestData(root) {
   return root;
 }
 
-// 实体的 updateBy 和 deleteBy 需要提前处理请求参数
+// The entity's updateBy and deleteBy need to process the request parameters in advance
 function parseRequestDataType(root, _prop) {
   let value;
   try {

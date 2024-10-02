@@ -1,14 +1,14 @@
 /**
- * 中划线格式 -转-> 驼峰格式
- * @param name 原名称
- * @return 转换后的名称
+ * Underline format -convert-> camel case format
+ * @param name original name
+ * @return converted name
  */
 const kebab2Camel = (name) => name.replace(/(?:^|-)([a-zA-Z0-9])/g, (m, $1) => $1.toUpperCase());
 
 /**
- * 驼峰格式 -转-> 中划线格式
- * @param name 原名称
- * @return 转换后的名称
+ * CamelCase format -convert->underline format
+ * @param name original name
+ * @return converted name
  */
 const Camel2kebab = (name) => name.replace(/([A-Z]|[0-9]+)/g, (m, $1, offset) => (offset ? '-' : '') + $1.toLowerCase());
 

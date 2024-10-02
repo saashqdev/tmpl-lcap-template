@@ -113,20 +113,20 @@ export function getLocation() {
     function showError(error) {
       switch (error.code) {
         case error.PERMISSION_DENIED:
-          Config.toast.error("用户禁止获取地理定位");
-          rej({ code: error.code, msg: "用户禁止获取地理定位" });
+          Config.toast.error("User is prohibited from obtaining geolocation");
+          rej({ code: error.code, msg: "User is prohibited from obtaining geolocation" });
           break;
         case error.POSITION_UNAVAILABLE:
-          Config.toast.error("地理定位信息无法获取");
-          rej({ code: error.code, msg: "地理定位信息无法获取" });
+          Config.toast.error("Geographical location information cannot be obtained");
+          rej({ code: error.code, msg: "Geographic location information cannot be obtained" });
           break;
         case error.TIMEOUT:
-          Config.toast.error("地理定位信息获取超时");
-          rej({ code: error.code, msg: "地理定位信息获取超时" });
+          Config.toast.error("Geographic location information acquisition timeout");
+          rej({ code: error.code, msg: "Geographic location information acquisition timeout" });
           break;
         case error.UNKNOWN_ERROR:
-          Config.toast.error("未知错误");
-          rej({ code: error.code, msg: "未知错误" });
+          Config.toast.error("unknown error");
+          rej({ code: error.code, msg: "Unknown error" });
           break;
       }
     }
@@ -134,8 +134,8 @@ export function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else {
-      Config.toast.error("当前系统不支持地理定位");
-      rej({ code: 666, msg: "当前系统不支持地理定位" });
+      Config.toast.error("The current system does not support geolocation");
+      rej({ code: 666, msg: "The current system does not support geolocation" });
     }
   });
 }
@@ -190,7 +190,7 @@ export function getUserLanguage() {
 }
 
 export function compareKeyboardInput(event, target) {
-  // 将target转event
+  // Convert target to event
   const targetEvent = {
     altKey: false,
     ctrlKey: false,
@@ -264,7 +264,7 @@ export async function getUserList(query) {
   return res;
 }
 
-// 下方为H5端的方法
+// Below is the method of H5 end
 export function getIsMiniApp() {
   return window.__wxjs_environment === "miniprogram";
 }
@@ -286,13 +286,13 @@ export function navigateToUserInfo() {
 }
 
 export function setI18nLocale(newLocale) {
-  // 修改local中的存储的语言标识
+  // Modify the language identifier stored in local
   localStorage.i18nLocale = newLocale;
-  // 重新加载页面
+  // Reload the page
   window.location.reload();
 }
 
 export function getI18nList() {
-  // 在ide中拼接好
+  // Splice in ide
   return window.$global.i18nInfo.I18nList || [];
 }

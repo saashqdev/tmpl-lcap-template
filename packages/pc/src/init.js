@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { installOptions, installFilters, installComponents, installDirectives, install } from '@vusion/utils';
+import { installOptions, installFilters, installComponents, installDirectives, install } from '@kubevue/utils';
 
 import * as Components from '@/components';
 

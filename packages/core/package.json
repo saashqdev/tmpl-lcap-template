@@ -50,6 +50,6 @@
     "jest-watch-typeahead": "^2.2.2",
     "minimist": "^1.2.8",
     "ts-jest": "^29.1.1",
-    "vusion-api": "^0.7.38"
+    "kubevue-api": "^0.7.38"
   }
 }
