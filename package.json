@@ -1,0 +1,24 @@
+{
+  "name": "root",
+  "private": true,
+  "description": "低代码应用模板",
+  "version": "1.5.0",
+  "scripts": {
+    "change:version": "node ./scripts/version",
+    "build": "pnpm --filter \"./packages/*\" run build",
+    "deploy": "pnpm --filter \"./packages/*\" run deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  },
+  "devDependencies": {
+    "fs-extra": "^9.0.0",
+    "glob": "^10.3.10",
+    "lcap": "0.2.3",
+    "minimist": "^1.2.8"
+  }
+}

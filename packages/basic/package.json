@@ -1,0 +1,52 @@
+{
+  "name": "@lcap/basic-template",
+  "version": "1.5.0",
+  "description": "",
+  "main": "cjs/index.js",
+  "scripts": {
+    "build:cjs": "tsc -p build/tsconfig.cjs.json",
+    "build:umd": "rollup -c build/rollup.config.mjs",
+    "build:bundle": "npm run build:cjs && npm run build:umd",
+    "dev": "nodemon --watch src -e 'ts,js,mjs,cjs,json' --exec 'yalc publish --push'",
+    "zip": "npm pack",
+    "prepublish": "npm run clean && npm run build:bundle && npm run test",
+    "test": "",
+    "build": "npm run build:bundle && npm run zip",
+    "clean": "rm -rf dist",
+    "deploy": "node scripts/deploy.js"
+  },
+  "files": [
+    "cjs",
+    "dist"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "axios": "^0.21.2",
+    "crypto-js": "^4.1.1",
+    "date-fns": "^2.6.0",
+    "date-fns-tz": "^2.0.0",
+    "decimal.js": "^10.4.1",
+    "lodash": "^4.17.15",
+    "mockjs": "^1.1.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
+    "qs": "^6.8.0",
+    "request-pre": "^0.4.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^20.11.16",
+    "minimist": "^1.2.8",
+    "nodemon": "^3.0.3",
+    "rollup": "^4.19.1",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "typescript": "^5.3.3",
+    "yalc": "^1.0.0-pre.53"
+  }
+}
