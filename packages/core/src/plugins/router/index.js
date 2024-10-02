@@ -18,7 +18,7 @@ export function downloadClick(realUrl, target) {
 export default {
     install(Vue, options = {}) {
         /**
-         * 流程接口注册
+         * Process interface registration
          */
         Vue.prototype.$process = processService;
         Vue.prototype.$processV2 = processV2Service();

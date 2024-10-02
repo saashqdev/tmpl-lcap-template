@@ -75,13 +75,13 @@ Params
 
 Used to convert a `Date` object or date string to the specified format.
 
-### Basic usage
+### Basic Usage
 
 ``` vue
 <template>
 <div>
     <div><code>new Date()</code> displays as: {{ formattedDate }}</div>
-    <div><code>'2018-08-08'</code> displays as: {{ formattedString }}</div>
+    <div><code>'2022-08-08'</code> displays as: {{ formattedString }}</div>
 </div>
 </template>
 <script>
@@ -91,7 +91,7 @@ export default {
     data() {
         return {
             formattedDate: utils.dateFormatter.format(new Date()),
-            formattedString: utils.dateFormatter.format('2018-08-08'),
+            formattedString: utils.dateFormatter.format('2022-08-08'),
         };
     },
 };

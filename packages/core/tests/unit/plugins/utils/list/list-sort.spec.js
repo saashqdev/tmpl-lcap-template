@@ -4,10 +4,9 @@ import fc from 'fast-check';
 import { utils as u } from '@/plugins/utils/index.js';
 
 
-
 describe('List sort functions', () => {
     test('List sort integers', () => {
-        // 测试点 1，升序
+        // Test point 1, ascending order
         {
             const ansAsc = [-100,-100,0,0,0,100,100]
             const testArr1 = [-100, 0, 100, 0, 0, 100, -100]
@@ -16,7 +15,7 @@ describe('List sort functions', () => {
             expect(testArr1SortedAsc).toBeUndefined
         }
 
-        // 测试点 2，降序
+        // Test point 2, descending order
         {
             const ansDes = [100,100,0,0,0,-100,-100]
             const testArr2 = [-100, 0, 100, 0, 0, 100, -100]
@@ -27,12 +26,12 @@ describe('List sort functions', () => {
     });
 
     test('List sort integers', () => {
-    // 测试点 3，升序
+    // Test point 3, ascending order
         const obj1 = {name : "Zhang San", gender: "M"}
         const obj2 = {name : "Li Si", gender: "M"}
         const obj3 = {name : "Wang Wu", gender: "F"}
 
-        // name 升序
+        // name ascending order
         const ansAsc = [obj2, obj3, obj1]
         const testArr1 = [obj1, obj2, obj3]
         u.ListSort(testArr1, item => item.name, true)
@@ -41,7 +40,7 @@ describe('List sort functions', () => {
 });
 
 describe('ListSort property-based check', () => {
-    it('List sort 幂等性', () => {
+    it('List sort idempotence', () => {
         fc.assert(
             fc.property(fc.array(fc.integer()), (arr) => {
                 const arrCopy = JSON.parse(JSON.stringify(arr));
@@ -50,7 +49,7 @@ describe('ListSort property-based check', () => {
         );
     });
 
-    it('ListSort 升序最小值等于 0 号元素', () => {
+    it('The minimum value of ListSort in ascending order is equal to element 0', () => {
         fc.assert(
             fc.property(fc.array(fc.integer(), { minLength: 1 }), (arr) => {
                 u.ListSort(arr, item => item, true);
@@ -59,7 +58,7 @@ describe('ListSort property-based check', () => {
         );
     });
 
-    it('ListSort 降序最大值等于 0 号元素', () => {
+    it('The maximum value of ListSort in descending order is equal to element 0', () => {
       fc.assert(
           fc.property(fc.array(fc.integer(), { minLength: 1 }), (arr) => {
               u.ListSort(arr, item => item, false);

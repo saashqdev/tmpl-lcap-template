@@ -1,56 +1,56 @@
-import { utils as codewaveUtils } from '@/plugins/utils/index.js';
+import { utils as kubevueUtils } from '@/plugins/utils/index.js';
 import momentTZ from 'moment-timezone';
 
 
 
-describe('Convert 函数', () => {
-    test('Convert 函数，string 到 string', () => {
+describe('Convert function', () => {
+    test('Convert function, string to string', () => {
 
     });
 
-    test('Convert 函数，string 到 Integer', () => {
-        expect(codewaveUtils.Convert('123.4', { typeKind: 'primitive', typeName: 'Long' }))
+    test('Convert function, string to Integer', () => {
+        expect(kubevueUtils.Convert('123.4', { typeKind: 'primitive', typeName: 'Long' }))
             .toBe(123);
-        expect(codewaveUtils.Convert('1234.5', { typeKind: 'primitive', typeName: 'Long' }))
+        expect(kubevueUtils.Convert('1234.5', { typeKind: 'primitive', typeName: 'Long' }))
             .toBe(1235);
     });
 
-    test('Convert 函数，string 到 Decimal', () => {
-        expect(codewaveUtils.Convert('123.4', { typeKind: 'primitive', typeName: 'Decimal' }))
+    test('Convert function, string to Decimal', () => {
+        expect(kubevueUtils.Convert('123.4', { typeKind: 'primitive', typeName: 'Decimal' }))
             .toBe(123.4);
-        expect(codewaveUtils.Convert('1.01', { typeKind: 'primitive', typeName: 'Decimal' }))
+        expect(kubevueUtils.Convert('1.01', { typeKind: 'primitive', typeName: 'Decimal' }))
             .toBe(1.01);
     });
-//     test('Convert 函数，string 到 DateTime', () => {
-//         const str = '2019-09-09 11:00:00';
+//      test('Convert function, string to DateTime', () => {
+//         const str = '2023-09-09 11:00:00';
 
-//         expect(codewaveUtils.Convert(str, { typeKind: 'primitive', typeName: 'DateTime' }))
-//             .toBe('2019-09-09T11:00:00+08:00');
+//         expect(kubevueUtils.Convert(str, { typeKind: 'primitive', typeName: 'DateTime' }))
+//             .toBe('2023-09-09T11:00:00+08:00');
 
-//         expect(codewaveUtils.ToString('nasl.core.DateTime',
-//                 codewaveUtils.Convert(str, { typeKind: 'primitive', typeName: 'DateTime' })))
-//             .toBe('2019-09-09 11:00:00');
-//     });
+//         expect(kubevueUtils.ToString('nasl.core.DateTime',
+//                 kubevueUtils.Convert(str, { typeKind: 'primitive', typeName: 'DateTime' })))
+//             .toBe('2023-09-09 11:00:00');
+//      });
 
-//     test('Convert 函数，string 到 Date', () => {
-//         const str = '2019-09-09 11:00:00';
+//      test('Convert function, string to Date', () => {
+//      const str = '2023-09-09 11:00:00';
 
-//         expect(codewaveUtils.Convert(str, { typeKind: 'primitive', typeName: 'Date' }))
-//             .toBe('2019-09-09');
+//      expect(kubevueUtils.Convert(str, { typeKind: 'primitive', typeName: 'Date' }))
+//      .toBe('2023-09-09');
 
-//         expect(codewaveUtils.ToString('nasl.core.Date',
-//                 codewaveUtils.Convert(str, { typeKind: 'primitive', typeName: 'Date' })))
-//             .toBe('2019-09-09');
-//     });
+//      expect(kubevueUtils.ToString('nasl.core.Date',
+//      kubevueUtils.Convert(str, { typeKind: 'primitive', typeName: 'Date' })))
+//      .toBe('2023-09-09');
+//      });
 
-//     test('Convert 函数，string 到 Time', () => {
-//         const str = '2019-09-09 11:00:00';
+//      test('Convert function, string to Time', () => {
+//         const str = '2023-09-09 11:00:00';
 
-//         expect(codewaveUtils.Convert(str, { typeKind: 'primitive', typeName: 'Time' }))
+//         expect(kubevueUtils.Convert(str, { typeKind: 'primitive', typeName: 'Time' }))
 //             .toBe('11:00:00');
 
-//         expect(codewaveUtils.ToString('nasl.core.Time',
-//                 codewaveUtils.Convert(str, { typeKind: 'primitive', typeName: 'Time' })))
+//         expect(kubevueUtils.ToString('nasl.core.Time',
+//                 kubevueUtils.Convert(str, { typeKind: 'primitive', typeName: 'Time' })))
 //             .toBe('11:00:00');
-//     });
+//      });
 });

@@ -3,16 +3,16 @@ export const getAppTimezone = (inputTz) => {
     const tz = inputTz === 'global' ? _appTimeZone : inputTz;
 
     if (tz && tz !== 'user') {
-        // 指定的固定的时区
+        // Specified fixed time zone
         return tz;
     } else {
-        // 用户本地时区，包括 tz 是 null、undefined 的场景
+        // User's local time zone, including scenarios where tz is null or undefined
         return Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
 };
 
 const validIANATimezoneCache = {};
-// 判断是否是有效的时区字符
+// Determine whether it is a valid time zone character
 export function isValidTimezoneIANAString(timezoneString) {
     if (validIANATimezoneCache[timezoneString])
         return true;

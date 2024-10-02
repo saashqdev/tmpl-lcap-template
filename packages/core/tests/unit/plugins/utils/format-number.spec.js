@@ -1,6 +1,6 @@
 import { utils as u, convertJSDateInTargetTimeZone } from '@/plugins/utils/index.js';
 
-describe('FormatNumber 函数', () => {
+describe('FormatNumber function', () => {
     test('FormatNumber', () => {
         expect(u.FormatNumber('1.005', 2, false, false, false, false)).toBe('1.01');
         expect(u.FormatNumber('1.00', 2, true, false, false, false)).toBe('1');

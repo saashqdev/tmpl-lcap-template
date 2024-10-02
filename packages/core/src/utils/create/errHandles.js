@@ -1,12 +1,12 @@
 import Config from '../../config';
 
-const getErrMessage = (err) => err.msg || err.Message || '系统错误，请查看日志！';
-const getErrStrack = (err) => err.StackTrace || '系统错误，请查看日志！';
+const getErrMessage = (err) => err.msg || err.Message || 'System error, please check the log! ';
+const getErrStrack = (err) => err.StackTrace || 'System error, please check the log! ';
 
 export default {
     defaults({ config }, err) {
         if (!config.noErrorTip) {
-            Config.Toast.error('系统错误');
+            Config.Toast.error('system error');
         }
     },
     500({ config }, err = {}) {
@@ -15,9 +15,9 @@ export default {
         }
     },
     501({ config }, err = {}) {
-        // 遇到服务端中止，前端也要中止程序
+        // When the server is terminated, the front end must also terminate the program.
         if (err.Code === 501 && err.Message === 'abort') {
-            throw Error('程序中止');
+            throw Error('Program terminated');
         }
     },
     400({ config }, err = {}) {
@@ -45,7 +45,7 @@ export default {
         }
         if (err.Code === 'InvalidToken' && err.Message === 'Token is invalid') {
             if (!config.noErrorTip) {
-                Config.Toast.error('登录失效，请重新登录');
+                Config.Toast.error('Login failed, please log in again');
             }
             localStorage.setItem('beforeLogin', JSON.stringify(location));
             location.href = '/login';
@@ -53,12 +53,12 @@ export default {
     },
     remoteError({ config }, err) {
         if (!config.noErrorTip) {
-            Config.Toast.error('系统错误，请查看日志！');
+            Config.Toast.error('System error, please check the log!');
         }
     },
     localError({ config }, err) {
         if (!config.noErrorTip) {
-            Config.Toast.error('系统错误，请查看日志！');
+            Config.Toast.error('System error, please check the log!');
         }
     },
 };

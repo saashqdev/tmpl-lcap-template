@@ -36,7 +36,7 @@ import {
   isTuesday,
   isWednesday,
   isThursday,
-  isFriday,
+  is friday
   isSaturday,
   isSunday,
 } from "date-fns";
@@ -98,22 +98,22 @@ export function convertJSDateInTargetTimeZone(date, tz) {
 function toValue(date, typeKey) {
   if (!date) return date;
   if (typeKey === "format")
-    return moment(date).format("YYYY-MM-DD"); // value 的真实格式
+    return moment(date).format("YYYY-MM-DD"); // The actual format of value
   else if (typeKey === "json") return this.JsonSerialize(date);
   else if (typeKey === "timestamp") return date.getTime();
   else return date;
 }
 
-function isArrayInBounds(arr, index) {
+function isArrayInBounds ( arr , index ) { ;
   if (!Array.isArray(arr)) {
-    toastAndThrow("传入内容不是数组");
+    toastAndThrow("The passed content is not an array");
   }
   if (typeof index !== "number" || isNaN(index)) {
-    toastAndThrow("传入下标不是数字");
+    toastAndThrow("The passed subscript is not a number");
   }
-  // 传入要找的下标，大于数组长度
+  // Pass in the subscript to be found, which is greater than the array length
   if (index + 1 > arr.length) {
-    toastAndThrow(`列表访问越界，访问下标 ${index}，列表长度 ${arr.length}`);
+    toastAndThrow(`list access out of bounds, access subscript ${index}, list length ${arr.length}`);
   }
   return true;
 }
@@ -211,7 +211,7 @@ export const utils = {
     if (enumName === tempName && tempEnums.valueType?.typeName === 'Long' && tempEnums.valueType?.typeNamespace === 'nasl.core') {
         isToNumber = true
     }
-    if (!Array.isArray(tempEnums.enumItems)) return [];
+    if ( ! Array . isArray ( tempEnums . enumItems ) ) return [ ] ;
     else {
       return tempEnums.enumItems.map((enumItem) => ({
         text: toString(typeNamespace + "." + typeName, enumItem.value),
@@ -220,22 +220,22 @@ export const utils = {
     }
   },
   JsonSerialize(v, tz) {
-    // 目前入参 v 的类型是 nasl.DateTime、nasl.Date、nasl.Time 时，都是 js 原生 string 类型
-    // 只能使用 regex 粗略判断一下
+    // Currently, when the input parameter v is of type nasl.DateTime, nasl.Date, or nasl.Time, it is a js native string type.
+    // You can only use regex to make a rough judgment
     if (this.isInputValidNaslDateTime(v)) {
-      // v3.3 老应用升级的场景，UTC 零时区，零时区展示上用 'Z'，后向兼容
-      // v3.4 新应用，使用默认时区时选项，tz 为空
+      // v3.3 The scenario of upgrading old applications, UTC zero time zone, zero time zone is displayed with 'Z', backward compatibility
+      // v3.4 new application, use the default time zone options, tz is empty
       if (!tz) {
         const d = momentTZ.tz(v, "UTC").format("YYYY-MM-DDTHH:mm:ss.SSS") + "Z";
         return JSON.stringify(d);
       }
-      // 新应用，设置为零时区，零时区展示上用 'Z'，后向兼容.
+      // New application, set to zero time zone, zero time zone is displayed with 'Z', backward compatibility.
       if (tz === "UTC") {
-        // TODO: 想用 "+00:00" 展示零时区
+        // TODO: I want to use "+00:00" to display the zero time zone
         const d = momentTZ.tz(v, "UTC").format("YYYY-MM-DDTHH:mm:ss.SSS") + "Z";
         return JSON.stringify(d);
       }
-      // 新应用，设置为其他时区
+      // New application, set to other time zone
       if (tz) {
         const d = momentTZ
           .tz(v, getAppTimezone(tz))
@@ -280,7 +280,7 @@ export const utils = {
     return arr.join("");
   },
   Length(str1) {
-    // Map类型
+    // Map type
     if (isObject(str1)) {
       return Object.keys(str1).length;
     }
@@ -303,12 +303,12 @@ export const utils = {
     return str && str.trim();
   },
   Get(arr, index) {
-    if (isArrayInBounds(arr, index)) {
+    if ( isArrayInBounds ( arr , index ) ) {
       return arr[index];
     }
   },
   Set(arr, index, item) {
-    if (isArrayInBounds(arr, index)) {
+    if ( isArrayInBounds ( arr , index ) ) {
       return utils.Vue.set(arr, index, item);
     }
   },
@@ -330,7 +330,7 @@ export const utils = {
     }
   },
   Insert(arr, index, item) {
-    if (isArrayInBounds(arr, index)) {
+    if ( isArrayInBounds ( arr , index ) ) {
       arr.splice(index, 0, item);
     }
   },
@@ -341,7 +341,7 @@ export const utils = {
     }
   },
   RemoveAt(arr, index) {
-    if (isArrayInBounds(arr, index)) {
+    if ( isArrayInBounds ( arr , index ) ) {
       return arr.splice(index, 1)[0];
     }
   },
@@ -393,7 +393,7 @@ export const utils = {
       : nullRemoved
           .reduce(
             (prev, cur) =>
-              // decimal 可解决 0.1 + 0.2 的精度问题，下同
+              // decimal can solve the precision problem of 0.1 + 0.2, the same below
               new Decimal(cur + "").plus(prev),
             new Decimal("0")
           )
@@ -571,15 +571,15 @@ export const utils = {
     }
   },
   ListSlice(arr, start, end) {
-    // 由于 slice 的特性，end 要校验的是长度，而不是下标，所以要减 1
-    if (isArrayInBounds(arr, start) && isArrayInBounds(arr, end - 1)) {
+    // Due to the characteristics of slice, end checks the length, not the subscript, so it needs to be subtracted by 1
+    if ( isArrayInBounds ( arr , start ) && isArrayInBounds ( arr , end -- 1 )) {
       return arr.slice(start, end);
     }
   },
-  // 不修改原 list，返回新 list
+  // Do not modify the original list, return the new list
   ListDistinctBy(arr, listGetVal) {
-    // getVal : <A,B> . A => B 给一个 A 类型的数据，返回 A 类型中被用户选中的 field 的 value
-    // listGetVal: getVal 这样的函数组成的 list
+    // getVal : <A,B> . A => B Given a data of type A, return the value of the field selected by the user in type A
+    // listGetVal: a list of functions like getVal
 
     if (!Array.isArray(arr)) {
       return null;
@@ -604,8 +604,8 @@ export const utils = {
     return res;
   },
   async ListDistinctByAsync(arr, listGetVal) {
-    // getVal : <A,B> . A => B 给一个 A 类型的数据，返回 A 类型中被用户选中的 field 的 value
-    // listGetVal: getVal 这样的函数组成的 list
+    // getVal : <A,B> . A => B Given a data of type A, return the value of the field selected by the user in type A
+    // listGetVal: a list of functions like getVal
 
     if (!Array.isArray(arr)) {
       return null;
@@ -630,7 +630,7 @@ export const utils = {
     return res;
   },
   ListGroupBy(arr, getVal) {
-    // getVal : <A,B> . A => B 给一个 A 类型的数据，返回 A 类型中被用户选中的 field 的 value
+    // getVal : <A,B> . A => B Given a data of type A, return the value of the field selected by the user in type A
     if (!arr || typeof getVal !== "function") {
       return null;
     }
@@ -641,7 +641,7 @@ export const utils = {
     arr.forEach((e) => {
       const val = getVal(e);
       if (res.hasOwnProperty(val)) {
-        // res.get(val) 是一个 array
+        // res.get(val) is an array
         res[val].push(e);
       } else {
         res[val] = [e];
@@ -650,7 +650,7 @@ export const utils = {
     return res;
   },
   async ListGroupByAsync(arr, getVal) {
-    // getVal : <A,B> . A => B 给一个 A 类型的数据，返回 A 类型中被用户选中的 field 的 value
+    // getVal : <A,B> . A => B Given a data of type A, return the value of the field selected by the user in type A
     if (!arr || typeof getVal !== "function") {
       return null;
     }
@@ -662,7 +662,7 @@ export const utils = {
       const e = arr[i];
       const val = await getVal(e);
       if (Array.isArray(res[val])) {
-        // res.get(val) 是一个 array
+        // res.get(val) is an array
         res[val].push(e);
       } else {
         res[val] = [e];
@@ -864,7 +864,7 @@ export const utils = {
       }
     }
   },
-  // 随着 PageOf 失效，可删除
+  // As PageOf becomes invalid, it can be deleted
   ListSliceToPageOf(arr, page, size) {
     if (Array.isArray(arr) && page) {
       const start = (page - 1) * size;
@@ -911,7 +911,7 @@ export const utils = {
     return moment(localDate).format("HH:mm:ss");
   },
   CurrDateTime(tz) {
-    // 函数签名用的是 Date 原生对象不是 string，所以先这样就行
+    // The function signature uses Date native object, not string, so this is OK
     return new Date();
   },
   AddDays(date = new Date(), amount = 1, converter = "json") {
@@ -921,7 +921,7 @@ export const utils = {
     );
   },
   AddMonths(date = new Date(), amount = 1, converter = "json") {
-    /** 传入的值为标准的时间格式 */
+    /** The value passed in is in standard time format*/
     return toValue(
       addMonths(safeNewDate(date), amount),
       converter
@@ -933,23 +933,23 @@ export const utils = {
       converter
     );
   },
-  // 兼容性策略：老应用升级到 3.10，保持老行为不变
+  // Compatibility strategy: upgrade old applications to 3.10, keep old behaviors unchanged
   GetDateCountOld(dateStr, metric, tz) {
     let date;
     if (this.isInputValidNaslDateTime(dateStr) && !tz) {
-      // v3.3 老应用升级的场景，使用全局配置（全局配置一般默认是‘用户时区’）
-      // v3.4 新应用，使用默认时区时选项，tz 为空
+      // For the scenario of upgrading old applications in v3.3, use global configuration (global configuration usually defaults to 'user time zone')
+      // v3.4 new application, use the default time zone options, tz is empty
       date = convertJSDateInTargetTimeZone(dateStr, getAppTimezone("global"));
     } else if (this.isInputValidNaslDateTime(dateStr) && tz) {
-      // v3.4 新应用，指定了默认值之外的时区选项，必然有时区参数 tz
+      // v3.4 New application, specifies a time zone option other than the default value, and must have a time zone parameter tz
       date = convertJSDateInTargetTimeZone(dateStr, tz);
     } else {
-      // 针对 nasl.Date 类型
+      // For nasl.Date type
       date = naslDateToLocalDate(dateStr);
     }
 
     const [metric1, metric2] = metric.split("-");
-    // 获取当年的最后一天的所在周会返回1，需要额外判断一下
+    // Get the week of the last day of the year. Return 1. Additional judgment is required.
     function getCurrentWeek(value) {
       let count = getWeek(value, { weekStartsOn: 1 });
       if (value.getMonth() + 1 === 12 && count === 1) {
@@ -996,19 +996,19 @@ export const utils = {
   GetDateCount(dateStr, metric, tz) {
     let date;
     if (this.isInputValidNaslDateTime(dateStr) && !tz) {
-      // v3.3 老应用升级的场景，使用全局配置（全局配置一般默认是‘用户时区’）
-      // v3.4 新应用，使用默认时区时选项，tz 为空
+      // For the scenario of upgrading old applications in v3.3, use global configuration (global configuration usually defaults to 'user time zone')
+      // v3.4 new application, use the default time zone options, tz is empty
       date = convertJSDateInTargetTimeZone(dateStr, getAppTimezone("global")); // date : Date
     } else if (this.isInputValidNaslDateTime(dateStr) && tz) {
-      // v3.4 新应用，指定了默认值之外的时区选项，必然有时区参数 tz
+      // v3.4 New application, specifies a time zone option other than the default value, and must have a time zone parameter tz
       date = convertJSDateInTargetTimeZone(dateStr, tz);
     } else {
-      // 针对 nasl.Date 类型
+      // For nasl.Date type
       date = naslDateToLocalDate(dateStr);
     }
 
     const [metric1, metric2] = metric.split("-");
-    // 获取当年的最后一天的所在周会返回1，需要额外判断一下
+    // Get the week of the last day of the year. Return 1. Additional judgment is required.
     function getCurrentWeek(value) {
       let count = getWeek(value, { weekStartsOn: 1 });
       if (value.getMonth() + 1 === 12 && count === 1) {
@@ -1033,10 +1033,10 @@ export const utils = {
       case "week":
         switch (metric2) {
           case "month": {
-            // 构造 date 所在月的第一天
+            // Construct the first day of the month where date is located
             const startOfMonth = new Date(moment(date).startOf('month').format('YYYY-MM-DD hh:mm:ss'));
-            // 获取该天是周几
-            const wod = startOfMonth.getDay(); // 假设返回 1- 7，确认下
+            // Get the day of the week
+            const wod = startOfMonth.getDay(); // Assume it returns 1-7, confirm
             console.log(wod)
 
             const daysOfFirstWeek = 7 - wod + 1;
@@ -1107,24 +1107,24 @@ export const utils = {
         || (typeof inp === 'string' && /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/.test(inp))
         || (typeof inp === 'string' && /^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})/.test(inp));
 },
-  GetSpecificDaysOfWeek(startdatetr, enddatetr, arr, tz) {
+  GetSpecificDaysOfWeek(startDateTree, endDateTree, arr, tz) {
     if (!startdatetr)
-      toastAndThrow(`内置函数GetSpecificDaysOfWeek入参错误：startDate不能为空`);
-    if (!enddatetr)
-      toastAndThrow(`内置函数GetSpecificDaysOfWeek入参错误：endDate不能为空`);
+      toastAndThrow(`Built-in function GetSpecificDaysOfWeek parameter error: startDate cannot be empty`);
+    if ( ! adddatetr )
+      toastAndThrow(`Built-in function GetSpecificDaysOfWeek parameter error: endDate cannot be empty`);
     if (!Array.isArray(arr)) {
       toastAndThrow(
-        `内置函数GetSpecificDaysOfWeek入参错误：参数“指定”非合法数组`
+        `Built-in function GetSpecificDaysOfWeek input error: parameter "specify" is not a legal array`
       );
     }
 
     let startDate;
     let endDate;
     if (this.isInputValidNaslDateTime(startdatetr) && !tz) {
-      // v3.3 老应用升级的场景，使用全局配置（全局配置一般默认是‘用户时区’）
-      // v3.4 新应用，使用默认时区时选项，tz 为空
+      // For the scenario of upgrading old applications in v3.3, use global configuration (global configuration usually defaults to 'user time zone')
+      // v3.4 new application, use the default time zone options, tz is empty
       startDate = convertJSDateInTargetTimeZone(
-        startdatetr,
+        start date,
         getAppTimezone("global")
       );
       endDate = convertJSDateInTargetTimeZone(
@@ -1132,14 +1132,14 @@ export const utils = {
         getAppTimezone("global")
       );
     } else if (this.isInputValidNaslDateTime(startdatetr) && tz) {
-      // v3.4 新应用，指定了默认值之外的时区选项，必然有时区参数 tz
+      // v3.4 New application, specifies a time zone option other than the default value, and must have a time zone parameter tz
       startDate = convertJSDateInTargetTimeZone(
-        startdatetr,
+        start date,
         getAppTimezone(tz)
       );
-      endDate = convertJSDateInTargetTimeZone(enddatetr, getAppTimezone(tz));
+      endDate = convertJSDateInTargetTimeZone(addDateTr, getAppTimeZone(tz));
     } else {
-      // 针对 nasl.Date 类型
+      // For nasl.Date type
       startDate = naslDateToLocalDate(startdatetr);
       endDate = naslDateToLocalDate(enddatetr);
     }
@@ -1153,7 +1153,7 @@ export const utils = {
       isTuesday,
       isWednesday,
       isThursday,
-      isFriday,
+      is friday
       isSaturday,
       isSunday,
     ];
@@ -1181,20 +1181,20 @@ export const utils = {
     if (!value) {
       return "-";
     }
-    // 使用正则表达式提取时、分、秒
+    // Use regular expressions to extract hours, minutes, and seconds
     const parts = value.match(/(\d{1,2})[^0-9]*(\d{1,2})[^0-9]*(\d{1,2})/);
 
-    // 如果没有匹配到三个部分，则返回原始字符串
+    // If no three parts are matched, the original string is returned
     if (!parts) {
       return value;
     }
 
-    // 提取时、分、秒，并将它们转换成整数
+    // Extract the hours, minutes, and seconds and convert them into integers
     let hours = parseInt(parts[1], 10);
     let minutes = parseInt(parts[2], 10);
     let seconds = parseInt(parts[3], 10);
 
-    // 根据需要格式化时、分、秒
+    // Format hours, minutes, and seconds as needed
     let formattedTime = formatter
       .replace('HH', hours.toString().padStart(2, '0'))
       .replace('H', hours.toString())
@@ -1221,7 +1221,7 @@ export const utils = {
     return utils.Vue.prototype.$genInitFromSchema(obj);
   },
   /**
-   * 将内容置空，array 置为 []; object 沿用 ClearObject 逻辑; 其他置为 undefined
+   * Set the content to empty, array to []; object follows the ClearObject logic; others are set to undefined
    */
   Clear(obj,mode,objType) {
     function clearDeep(obj, seen = new Map()) {
@@ -1265,7 +1265,7 @@ export const utils = {
     return obj;
   },
   /**
-   * 保留 ClearObject，兼容老版本，将某个对象所有字段置为空，一般用于 filter
+   * Keep ClearObject, compatible with old versions, set all fields of an object to empty, generally used for filter
    */
   ClearObject(obj) {
     for (const key in obj) {
@@ -1305,7 +1305,7 @@ export const utils = {
         return format(safeNewDate(value), "yyyy-MM-dd");
       else if (typeAnnotation.typeName === "Time") {
         if (/^\d{2}:\d{2}:\d{2}$/.test(value))
-          // 纯时间 12:30:00
+          // Pure time 12:30:00
           return format(safeNewDate("2022/01/01 " + value), "HH:mm:ss");
         else return format(safeNewDate(value), "HH:mm:ss");
       } else if (typeAnnotation.typeName === "String") return String(value);
@@ -1313,30 +1313,30 @@ export const utils = {
         typeAnnotation.typeName === "Double" ||
         typeAnnotation.typeName === "Decimal"
       )
-        // 小数
+        // Decimal
         return parseFloat(+value);
       else if (
         typeAnnotation.typeName === "Integer" ||
         typeAnnotation.typeName === "Long"
       )
-        // 日期时间格式特殊处理; 整数： format 'int' ; 长整数: format: 'long'
+        // Special processing of date and time formats; Integer: format 'int'; Long integer: format: 'long'
         return /^\d{4}-\d{2}-\d{2}(.*)+/.test(value)
           ? safeNewDate(value).getTime()
           : Math.round(+value);
       else if (typeAnnotation.typeName === "Boolean")
-        // 布尔值
+        // Boolean value
         return !!value;
     }
 
     return value;
   },
   ToString(typeKey, value, tz) {
-    // v3.3 老应用升级的场景，使用全局配置（全局配置一般默认是‘用户时区’）
-    // v3.4 新应用，使用默认时区时选项，tz 为空
+    // For the scenario of upgrading old applications in v3.3, use global configuration (global configuration usually defaults to 'user time zone')
+    // v3.4 new application, use the default time zone options, tz is empty
     if (typeKey === "nasl.core.DateTime" && !tz) {
       return toString(typeKey, value, "global");
     } else {
-      // v3.4 新应用，指定了默认值之外的时区选项，必然有时区参数 tz
+      // v3.4 New application, specifies a time zone option other than the default value, and must have a time zone parameter tz
       return toString(typeKey, value, getAppTimezone(tz));
     }
   },
@@ -1344,12 +1344,12 @@ export const utils = {
     return fromString(value, typeKey);
   },
   /**
-   * 数字格式化
-   * @param {digits} 小数点保留个数
-   * @param {omit} 是否隐藏末尾零
-   * @param {showGroup} 是否显示千位分割（默认逗号分隔）
-   * @param {fix} 前缀还是后缀
-   * @param {unit} 单位
+   * Number formatting
+   * @param {digits} the number of decimal places to retain
+   * @param {omit} whether to hide the trailing zero
+   * @param {showGroup} whether to display thousands separator (comma separator by default)
+   * @param {fix} prefix or suffix
+   * @param {unit} unit
    */
   FormatNumber(value, digits, omit, showGroup, fix, unit) {
     if (!value) return value;
@@ -1358,7 +1358,7 @@ export const utils = {
     if (digits !== undefined) {
       value = new Decimal(value).toFixed(parseInt(digits));
       if (omit) {
-        value = value.replace(/0+$/, '').replace(/\.$/, ''); // 转字符串
+        value = value.replace(/0+$/, '').replace(/\.$/, ''); // Convert to string
       }
     }
     if (showGroup) {
@@ -1393,10 +1393,10 @@ export const utils = {
     return "" + value;
   },
   /**
-   * 百分数格式化
-   * @param {digits} 小数点保留个数
-   * @param {omit} 是否隐藏末尾零
-   * @param {showGroup} 是否显示千位分割（默认逗号分隔）
+   * Percentage formatting
+   * @param {digits} the number of decimal places to retain
+   * @param {omit} whether to hide the trailing zero
+   * @param {showGroup} whether to display thousands separator (comma separator by default)
    */
   FormatPercent(value, digits, omit, showGroup) {
     if (!value) return value;
@@ -1406,7 +1406,7 @@ export const utils = {
     if (digits !== undefined) {
       value = Number(value).toFixed(parseInt(digits));
       if (omit) {
-        value = parseFloat(value) + ""; // 转字符串
+        value = parseFloat(value) + ""; // Convert to string
       }
     }
     if (showGroup) {
@@ -1428,19 +1428,19 @@ export const utils = {
     return value + "%";
   },
   /**
-   * 时间差
-   * @param {dateTime1} 时间
-   * @param {dateTime2} 时间
-   * @param {calcType} 计算类型：年(y)、季度(q)、月(M)、星期(w)、天数(d)、小时数(h)、分钟数(m)、秒数(s)
+   * Time difference
+   * @param {dateTime1} time
+   * @param {dateTime2} time
+   * @param {calcType} calculation type: year (y), quarter (q), month (M), week (w), day (d), hour (h), minute (m), second (s)
    */
   DateDiff(dateTime1, dateTime2, calcType, isAbs = true) {
     if (!dateTime1)
-      toastAndThrow(`内置函数DateDiff入参错误：dateTime1不能为空`);
+      toastAndThrow(`Error in input parameter of built-in function DateDiff: dateTime1 cannot be empty`);
     if (!dateTime2)
-      toastAndThrow(`内置函数DateDiff入参错误：dateTime2不能为空`);
+      toastAndThrow(`Built-in function DateDiff parameter error: dateTime2 cannot be empty`);
     // Time
     const timeReg = /^(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/;
-    if (timeReg.test(dateTime1) && timeReg.test(dateTime2)) {
+    if ( timeReg . test ( dateTime1 ) && timeReg . test ( dateTime2 )) {
       dateTime1 = `1970/01/01 ${dateTime1}`;
       dateTime2 = `1970/01/01 ${dateTime2}`;
     }
@@ -1467,19 +1467,19 @@ export const utils = {
     );
     return isAbs ? Math.abs(diffRes) : diffRes;
   },
-  // 时区转换
+  // Time zone conversion
   ConvertTimezone(dateTime, tz) {
     if (!dateTime) {
-      toastAndThrow(`内置函数ConvertTimezone入参错误：指定日期为空`);
+      toastAndThrow(`Error in input parameter of built-in function ConvertTimezone: the specified date is empty`);
     }
     if (!isValid(safeNewDate(dateTime))) {
       toastAndThrow(
-        `内置函数ConvertTimezone入参错误：指定日期不是合法日期类型`
+        `Built-in function ConvertTimezone input error: the specified date is not a legal date type`
       );
     }
     if (!isValidTimezoneIANAString(tz)) {
       toastAndThrow(
-        `内置函数ConvertTimezone入参错误：传入时区${tz}不是合法时区字符`
+        `Built-in function ConvertTimezone input error: the passed time zone ${tz} is not a valid time zone character`
       );
     }
 
@@ -1487,12 +1487,12 @@ export const utils = {
     return result;
   },
   /**
-   * 字符串查找
-   * @param {string} str 字符串
-   * @param {string} search 查找字符串
-   * @param {number} fromIndex 开始位置
-   * @param {boolean} ignoreCase 是否忽略大小写
-   * @returns {number} 查找到的位置，没找到返回-1
+   * String search
+   * @param {string} str string
+   * @param {string} search search string
+   * @param {number} fromIndex starting position
+   * @param {boolean} ignoreCase whether to ignore case
+   * @returns {number} the location found, if not found, returns -1
    */
   IndexOf(str, search, fromIndex, ignoreCase) {
     if (typeof str !== "string" || typeof search !== "string") {
@@ -1508,11 +1508,11 @@ export const utils = {
     return str.indexOf(search, fromIndex);
   },
   /**
-   * 倒序字符串查找
-   * @param {string} str 字符串
-   * @param {string} search 查找字符串
-   * @param {boolean} ignoreCase 是否忽略大小写
-   * @returns {number} 查找到的位置，没找到返回-1
+   * Reverse string search
+   * @param {string} str string
+   * @param {string} search search string
+   * @param {boolean} ignoreCase whether to ignore case
+   * @returns {number} the location found, if not found, returns -1
    */
   LastIndexOf(str, search, ignoreCase) {
     if (typeof str !== "string" || typeof search !== "string") {
@@ -1525,11 +1525,11 @@ export const utils = {
     return str.lastIndexOf(search);
   },
   /**
-   * 注意是 ReplaceAll
-   * @param {string} str 字符串
-   * @param {string} search 查找字符串
-   * @param {string} replace 替换字符串
-   * @returns {string} 替换后的字符串
+   * Note: ReplaceAll
+   * @param {string} str string
+   * @param {string} search search string
+   * @param {string} replace replace string
+   * @returns {string} the replaced string
    */
   Replace(str, search, replace) {
     if (typeof str !== "string" || typeof search !== "string") {
@@ -1543,10 +1543,10 @@ export const utils = {
   },
   /**
    *
-   * @param {string} str 字符串
-   * @param {number} start 开始位置
-   * @param {number} length 长度
-   * @returns {string} 截取后的字符串
+   * @param {string} str string
+   * @param {number} start starting position
+   * @param {number} length
+   * @returns {string} The intercepted string
    */
   SubString(str, start, length) {
     if (typeof str !== "string") {
@@ -1560,13 +1560,13 @@ export const utils = {
     }
     return str.substr(start, length);
   },
-  // 随着 PageOf 失效，可删除
+  // As PageOf becomes invalid, it can be deleted
   /**
-   * List<T> 转换为 PageOf<T>
-   * @param {List<T>} list 集合
-   * @param {number} page 页数
-   * @param {number} size 每页条数
-   * @param {number} total 总数
+   * List<T> converted to PageOf<T>
+   * @param {List<T>} list collection
+   * @param {number} page number
+   * @param {number} size Number of entries per page
+   * @param {number} total
    * @returns {PageOf<T>}
    */
   CreatePageOf(list, page, size, total) {
@@ -1584,18 +1584,18 @@ export const utils = {
     };
   },
   /**
-   * List<T> 转换为 { list: List<T>, total: Integer }
-   * @param {List<T>} list 集合
-   * @param {number} total 总数
+   * List<T> is converted to { list: List<T>, total: Integer }
+   * @param {List<T>} list collection
+   * @param {number} total
    * @returns {list: List<T>, total: Integer}
    */
   CreateListPage(list, total) {
     return { list, total };
   },
   /**
-   * @param {number} value 内容
-   * @param {string} mode 方式
-   * @returns {number} 返回值
+   * @param {number} value content
+   * @param {string} mode
+   * @returns {number} return value
    */
   Round(value, mode) {
     const modeMap = {
@@ -1605,16 +1605,16 @@ export const utils = {
     };
 
     if (!value) {
-      console.warn("Round 函数的 value 参数不能为空:", value);
+      console.warn("The value parameter of the Round function cannot be empty:", value);
       return 0;
     }
 
     return Number(new Decimal(value).toFixed(0, modeMap[mode]));
   },
   /**
-   * 空值判断（与）
+   * Null value judgment (and)
    * @param {Object[]} values 值
-   * @returns {boolean} 返回值
+   * @returns {boolean} return value
    */
   HasValue(...values) {
     const hasValue = (value, typeKey) => {
@@ -1693,7 +1693,7 @@ export const utils = {
 
 export default {
   install(Vue, options) {
-    utils.Vue = Vue;
+    utils.View = View;
     Vue.prototype.$utils = utils;
     window.$utils = utils;
     enumsMap = options.enumsMap;

@@ -70,7 +70,7 @@ const init = (appConfig, platformConfig, routes, metaData) => {
     installComponents(Vue, Components);
 
     // 处理当前语言
-    let locale = 'zh-CN';
+    let locale = 'en-US';
     if (appConfig.i18nInfo) {
         const { I18nList, messages } = appConfig.i18nInfo;
         locale = getUserLanguage(appConfig, messages);
@@ -233,7 +233,7 @@ function getUserLanguage(appConfig, messages = {}) {
                 locale = match;
             } else {
                 // 如果不存在，就用默认语言
-                locale = appConfig.i18nInfo.locale || 'zh-CN';
+                locale = appConfig.i18nInfo.locale || 'en-US';
             }
         }
     }

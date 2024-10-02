@@ -1,6 +1,6 @@
 import { utils as u, convertJSDateInTargetTimeZone } from '@/plugins/utils/index.js';
 
-describe('日期时间格式化辅助函数', () => {
+describe('Date and time formatting helper functions', () => {
     test('convertJSDateInTargetTimeZone', () => {
         const dateStr1 = '2000-10-10 10:11:12'
         const dateStr2 = '2000-10-10 10:11:12.123'

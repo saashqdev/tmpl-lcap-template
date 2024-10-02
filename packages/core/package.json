@@ -11,8 +11,8 @@
     "test": "jest --env=jsdom --coverage"
   },
   "keywords": [],
-  "author": "LCAP FE Team",
-  "license": "ISC",
+  "author": "Kubeworkz FE Team",
+  "license": "MIT",
   "files": [
     "index.js",
     "esm"

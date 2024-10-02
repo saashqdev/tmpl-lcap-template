@@ -2,7 +2,7 @@ import { utils as u } from '@/plugins/utils/index.js';
 
 
 
-describe('Map 测试', () => {
+describe('Map Test', () => {
     test('MapGet MapPut', () => {
         {
             const testMap = { };

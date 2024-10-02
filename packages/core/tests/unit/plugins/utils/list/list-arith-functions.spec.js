@@ -4,7 +4,7 @@ import { utils } from '@/plugins/utils/index.js';
 
 describe('List arithmetic (aggregation) functions', () => {
     const fns = [utils.ListMax, utils.ListMin, utils.ListSum, utils.ListProduct, utils.ListAverage];
-    test('测试非正常输入', () => {
+    test('Test abnormal input', () => {
         fns.forEach(fn => {
             expect(fn(undefined)).toBeNull;
         });
@@ -22,7 +22,7 @@ describe('List arithmetic (aggregation) functions', () => {
         });
     });
 
-    test('测试正常输入', () => {
+    test('Test normal input', () => {
         {
             const list = [1, 4, null, -2, null];
 
@@ -55,7 +55,7 @@ describe('List arithmetic (aggregation) functions', () => {
         }
     });
 
-    test('测试数值精度', () => {
+    test('Test numerical accuracy', () => {
         const list = [undefined, 0.8, 1.2, null, null];
 
         expect(utils.ListSum(list)).toBe(2.0);
@@ -66,7 +66,7 @@ describe('List arithmetic (aggregation) functions', () => {
         expect(utils.ListSum(list2)).toBe(10.0);
     });
 
-    test('QA 给的用例', () => {
+    test('Use case given by QA', () => {
         expect(utils.ListMax([-1.1, null, null, -2.2])).toBe(-1.1);
         expect(utils.ListAverage([null, 1.5, 2.5, 3.5])).toBe(2.5);
         expect(utils.ListAverage([-1.1, null, null, -2.2])).toBe(-1.65);

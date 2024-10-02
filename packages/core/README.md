@@ -1,16 +1,16 @@
-### 过程记录
+### Process Record
 
-基础包core目录下路径别名@都统一改用相对路径，脱离构建工具依赖
+The path aliases @ in the core directory of the basic package are all changed to relative paths to break away from build tool dependencies.
 
-#### utils/create  (✅)
-- requester方法中有一段仅H5使用的逻辑
-- download方法中有一段仅PC使用的逻辑
-- Toast通过注入的形式分端提供
+#### Utils/Create (✅)
+- There is a piece of logic in the requester method that is only used by H5
+- There is a piece of logic in the download method that is only used by PC
+- Toast is provided in the form of injection.
 
 
-#### apis (✅)
+#### Apis (✅)
 
-- 通过index.js导出所有api
+- Export all APIs via index.js
 
 ```js
 export { initService as initAuthService } from './auth'
@@ -20,13 +20,13 @@ export { initService as initLowauthService } from "./lowauth";
 export { initService as initProcessService } from "./process";
 ```
 
-#### plugins/common (✅)
+#### Plugins/Common (✅)
 
-- wx相关，删除端上逻辑实现
+- wx related, delete the logic implementation on the end
 
-#### plugins/dataTypes (✅)
+#### Plugins/DataTypes (✅)
 
-|-- 方法名 --|-- PC --|-- H5 --|
+|-- method name --|-- PC --|-- H5 --|
 |:--:|:--:|:--:|
 | compareKeyboardInput | ✅ |  |
 | getIsMiniApp |  | ✅ |
@@ -56,15 +56,15 @@ export { initService as initProcessService } from "./process";
 ```
 
 
-#### plugins/router (✅)
-- config定义destination
+#### Plugins/Router (✅)
+- config definition destination
 
 
-#### plugins/utils (✅)
-- 对时间格式‘2022-11-11 12:12:12’的处理差异，已做兼容
+#### Plugins/Utils (✅)
+- The processing difference of time format ‘2022-11-11 12:12:12’ has been made compatible
 ```js
 function fixIOSDateString(value) {
-  // 判断是否ios系统
+  // Determine whether it is an ios system
   if (!/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
     return value;
   }
@@ -77,10 +77,10 @@ function fixIOSDateString(value) {
 }
 ```
 
-### 业务侧使用姿势
+### Business Side Usage Posture
 
 ```js
-// main入口文件 
+// main entry file
 import '@lcap/mobile-ui/dist-theme/index.css';
 import metaData from './metaData.json';
 import platformConfig from './platform.config.json';
@@ -88,9 +88,9 @@ import { routes } from '@lcap/base-core/router/routes';
 import cloudAdminDesigner from './init';
 
 import { setConfig } from '@lcap/base-core';
-// 实现以下内容， 具体调用处在core目录下搜索
+// Implement the following content. The specific call location is searched in the core directory.
 setConfig({
-    $global: {}, // 参照plugins/dataTypes对比差异
+    $global: {}, // Refer to plugins/dataTypes to compare differences
     Toast: {
         show: (message, stack) => void 0,
         error: (message, stack) => void 0,
@@ -109,7 +109,7 @@ cloudAdminDesigner.init(platformConfig?.appConfig, platformConfig, routes, metaD
 
 ```
 
-init.js中都是用core
+Core is used in init.js
 ```js
 import filters from '@lcap/base-core/filters';
 // import { AuthPlugin, DataTypesPlugin, LogicsPlugin, RouterPlugin, ServicesPlugin, UtilsPlugin } from '@/plugins';

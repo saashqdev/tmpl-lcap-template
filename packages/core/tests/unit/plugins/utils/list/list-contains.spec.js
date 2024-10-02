@@ -5,14 +5,14 @@ import { utils as u } from '@/plugins/utils/index.js';
 
 
 describe('Test List Contains', () => {
-    test('测试非正常输入', () => {
+    test('Test abnormal input', () => {
         expect(u.Contains(undefined, 1)).toBe(false);
         expect(u.Contains(null, 1)).toBe(false);
         expect(u.Contains([], 1)).toBe(false);
         expect(u.Contains([undefined, null], 1)).toBe(false);
     });
 
-    test('正常输入', () => {
+    test('Normal input', () => {
         const list = [1, 4, null, -2, null, undefined];
 
         expect(u.Contains(list, 1)).toBe(true);
@@ -23,7 +23,7 @@ describe('Test List Contains', () => {
         expect(u.Contains(list, undefined)).toBe(true);
     });
 
-    test('正常输入 字符串', () => {
+    test('Normal input string', () => {
         const list = ['1', '4', null, '-2', null, undefined];
 
         expect(u.Contains(list, '1')).toBe(true);
@@ -36,7 +36,7 @@ describe('Test List Contains', () => {
 });
 
 describe('ListContains property-based check', () => {
-    it('ListContains 总是包含 0 号元素和最后一个元素', () => {
+    it('ListContains always contains element 0 and the last element', () => {
         fc.assert(
             fc.property(fc.array(fc.integer(), { minLength: 1 }), (list) =>
                 u.Contains(list, list[0]) && u.Contains(list, list[list.length - 1])),

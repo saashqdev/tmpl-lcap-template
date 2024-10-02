@@ -4,7 +4,7 @@ import { filterRoutes, parsePath } from '../../utils/route';
 import { getBasePath } from '../../utils/encodeUrl';
 
 /**
- * 是否有无权限页面
+ * Are there any unauthorized pages?
  * @param {*} routes
  */
 export function findNoAuthView(routes) {
@@ -30,8 +30,8 @@ function generatePaths(str) {
   }
 
 /**
- * 过滤无权限页面（X2.22_0629调整），如子页面绑定了角色父页面未绑定，则子页面无法访问。
- * 更多边界情况参考用例: tests\unit\global\routes\route.spec.js
+ * Filter unauthorized pages (X2.22_0629 adjustment). If the subpage is bound to a role and the parent page is not bound, the subpage cannot be accessed.
+ * More edge case reference cases: tests\unit\global\routes\route.spec.js
  * @param {*} resources
  */
 export function filterAuthResources(resources) {
@@ -43,7 +43,7 @@ export function filterAuthResources(resources) {
     const validPaths = resources.reduce((map, item) => {
         map.set(item.resourceValue, 1);
         return map;
-    }, new Map([[ROOT_PATH, 1], ...bases])); // 需注意，路由起始都具备basePath（PC&H5都有不固定起始路由）
+    }, new Map([[ROOT_PATH, 1], ...bases])); // Please note that all routes have a basePath at the beginning (PC&H5 all have unfixed starting routes)
 
     const isValidPath = (path) => {
         let parentPath = getParentPath(path);
@@ -72,7 +72,7 @@ export const getAuthGuard = (router, routes, authResourcePaths, appConfig, baseR
     function concatResourcesRoutes(resources, baseRoutes) {
         return resources.concat(baseRoutes.map((route) => ({
             resourceValue: route,
-            // 如果后续需要区分路由类型，这里也需要补充 resourceType
+            // If you need to distinguish routing types later, you also need to add resourceType here.
         })));
     }
     const userInfo = Vue.prototype.$global.userInfo || {};
@@ -97,7 +97,7 @@ export const getAuthGuard = (router, routes, authResourcePaths, appConfig, baseR
                     const resources = await $auth.getUserResources(appConfig.domainName);
                     const realResources = filterAuthResources(concatResourcesRoutes(resources, baseResourcePaths));
                     addAuthRoutes(realResources);
-                    // 即使没有查到权限，也需要重新进一遍，来决定去 无权限页面 还是 404页面
+                    // Even if the permission is not found, you still need to go through it again to decide whether to go to the no permission page or the 404 page.
                     next({
                         path: toPath,
                         query: toQuery,

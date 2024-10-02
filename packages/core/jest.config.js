@@ -1,5 +1,5 @@
-// 设置测试运行的时区
-process.env.TZ = 'Asia/Shanghai';
+// Set the time zone for test runs
+process.env.TZ = 'America/Toronto';
 
 module.exports = {
     moduleFileExtensions: [

@@ -1,4 +1,4 @@
-// 差异性配置，由H5、PC端启动时 传入覆盖
+// Differential configuration, incoming coverage when started by H5 and PC
 const Config = {
   $global: {},
   Toast: {

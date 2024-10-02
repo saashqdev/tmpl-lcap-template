@@ -1,7 +1,7 @@
 ``` vue
 <template>
 <div>
-    <div>当前日期为：{{ $n(100, 'currency', 'zh-CN') }}</div>
+    <div>The current date is:{{ $n(100, 'currency', 'en-US') }}</div>
 </div>
 </template>
 <script>
@@ -9,17 +9,12 @@ import { utils } from 'cloud-ui.kubevue';
 
 export default {
     i18n: {
-        locale: 'zh-CN', // 设置地区
+        locale: 'en-US', // Set region
         messages: {
-            cn: {
+            en: {
                 car: 'car | cars',
                 message: {
                     hello: 'hello world',
-                },
-            },
-            ja: {
-                message: {
-                    hello: 'こんにちは、世界',
                 },
             },
         },
@@ -38,7 +33,7 @@ export default {
 
 
 
-格式器的一般形式是一个包含`format(value, ...settings)`方法的类。
+The general form of a formatter is a class containing a `format(value, ...settings)` method.
 
 ``` js
 class SomeFormatter {
@@ -49,7 +44,7 @@ class SomeFormatter {
 }
 ```
 
-数据在经过某些格式器格式化之后，信息没有丢失，仍然可以转换成原始数据。这类格式器称为可逆格式器，它们还包含`parse(value, ...settings)`方法。
+After the data is formatted by some formatters, the information is not lost and can still be converted into original data. Such formatters are called reversible formatters, and they also contain a `parse(value, ...settings)` method.
 
 ``` js
 class SomeFormatter {
@@ -65,14 +60,14 @@ class SomeFormatter {
 }
 ```
 
-### 用于过滤器
+### For Filters
 
-除了直接当方法调用来转换数据，格式器最常见的用法是可以配置成 Vue 的过滤器，很方便地在模板中使用。
+In addition to directly converting data when called as a method, the most common use of formatters is that they can be configured as Vue filters, which are easily used in templates.
 
-``` vue
+```vue
 <template>
 <div>
-    <div>当前日期为：{{ now | date('YYYY-MM-DD') }}</div>
+    <div>The current date is: {{ now | date('YYYY-MM-DD') }}</div>
 </div>
 </template>
 <script>

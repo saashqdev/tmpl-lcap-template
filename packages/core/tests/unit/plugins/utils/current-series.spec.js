@@ -1,55 +1,55 @@
-import { utils as codewaveUtils } from '@/plugins/utils/index.js';
+import { utils as kubevueUtils } from '@/plugins/utils/index.js';
 const momentTZ = require('moment-timezone');
 const moment = require('moment');
 
 
 
-describe('当前日期时间系列函数', () => {
+describe('Current date and time series function', () => {
     test('CurrentDateTime', () => {
         // -11:00
-        const aDateTime = codewaveUtils.FormatDateTime(codewaveUtils.CurrDateTime('noUse'), 'yyyy-MM-dd HH:mm:ss', 'Pacific/Midway');
+        const aDateTime = kubevueUtils.FormatDateTime(kubevueUtils.CurrDateTime('noUse'), 'yyyy-MM-dd HH:mm:ss', 'Pacific/Midway');
         // +14:00
-        const bDateTime = codewaveUtils.FormatDateTime(codewaveUtils.CurrDateTime('noUse'), 'yyyy-MM-dd HH:mm:ss', 'Pacific/Kiritimati');
-        expect(codewaveUtils.DateDiff(new Date(bDateTime), new Date(aDateTime), 'h', false)).toBe(-25);
-        expect(codewaveUtils.DateDiff(new Date(bDateTime), new Date(aDateTime), 'h')).toBe(25);
+        const bDateTime = kubevueUtils.FormatDateTime(kubevueUtils.CurrDateTime('noUse'), 'yyyy-MM-dd HH:mm:ss', 'Pacific/Kiritimati');
+        expect(kubevueUtils.DateDiff(new Date(bDateTime), new Date(aDateTime), 'h', false)).toBe(-25);
+        expect(kubevueUtils.DateDiff(new Date(bDateTime), new Date(aDateTime), 'h')).toBe(25);
 
         const utcDate = momentTZ.tz(new Date(), 'UTC');
-        const cDate = codewaveUtils.CurrDateTime('noUse');
+        const cDate = kubevueUtils.CurrDateTime('noUse');
         if (utcDate.hours() > 10) {
-            // 可能跨月：-30, -29, -28, -27
+            // Possible spans of months: -30, -29, -28, -27
             expect([1, -30, -29, -28]).toContain(momentTZ.tz(cDate, 'Pacific/Kiritimati').date() - utcDate.date());
         } else {
-            // 可能跨月
+            // Possibly across months
             expect([-1, 30, 29, 28, 27]).toContain(momentTZ.tz(cDate, 'Pacific/Midway').date() - utcDate.date());
         }
     });
 
     test('CurrentDate', () => {
         // - 11:00
-        const aDate = codewaveUtils.CurrDate('Pacific/Midway');
+        const aDate = kubevueUtils.CurrDate('Pacific/Midway');
         const a = momentTZ.tz(aDate, 'YYYY-MM-DD', 'Pacific/Midway').date();
 
         // +14:00
-        const bDate = codewaveUtils.CurrDate('Pacific/Kiritimati');
+        const bDate = kubevueUtils.CurrDate('Pacific/Kiritimati');
         const b = momentTZ.tz(bDate, 'YYYY-MM-DD', 'Pacific/Kiritimati').date();
 
         if (b - a > 0) {
             expect([2, 1]).toContain(b - a);
         } else {
-            // 跨月后是负数
+            // It is a negative number after crossing the month
             expect([-27, -28, -29, -30]).toContain(b - a);
         }
 
     });
 
     test('CurrentTime', () => {
-        const nycTime = codewaveUtils.CurrTime('Etc/GMT+4');
+        const nycTime = kubevueUtils.CurrTime('Etc/GMT+4');
         const a = momentTZ.tz(nycTime, 'HH:mm:ss', 'Etc/GMT+4').hours();
 
-        const shTime = codewaveUtils.CurrTime('Asia/Shanghai');
-        const b = momentTZ.tz(shTime, 'HH:mm:ss', 'Asia/Shanghai').hours();
+        const shTime = kubevueUtils.CurrTime('America/Toronto');
+        const b = momentTZ.tz(shTime, 'HH:mm:ss', 'America/Toronto').hours();
 
-        const utcTime = codewaveUtils.CurrTime('UTC');
+        const utcTime = kubevueUtils.CurrTime('UTC');
         const c = momentTZ.tz(utcTime, 'HH:mm:ss', 'UTC').hours();
 
         expect([12, -12]).toContain(b - a);

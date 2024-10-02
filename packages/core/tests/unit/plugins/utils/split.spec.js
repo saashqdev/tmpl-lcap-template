@@ -1,30 +1,30 @@
-import { utils as codewaveUtils } from '@/plugins/utils/index.js';
+import { utils as kubevueUtils } from '@/plugins/utils/index.js';
 
 
-describe('Split 函数', () => {
-    test('Split 函数 保留末尾空串', () => {
-        expect(codewaveUtils.Split('', '.', true))
+describe('Split function', () => {
+    test('Split function retains the empty string at the end', () => {
+        expect(kubevueUtils.Split('', '.', true))
             .toEqual(['']);
-        expect(codewaveUtils.Split('', '', true))
+        expect(kubevueUtils.Split('', '', true))
             .toEqual([]);
-        expect(codewaveUtils.Split('1.', '.', true))
+        expect(kubevueUtils.Split('1.', '.', true))
             .toEqual(['1','']);
-        expect(codewaveUtils.Split('1..', '.', true))
+        expect(kubevueUtils.Split('1..', '.', true))
             .toEqual(['1','','']);
-        expect(codewaveUtils.Split('1', '.', true))
+        expect(kubevueUtils.Split('1', '.', true))
             .toEqual(['1']);
     });
 
-    test('Split 函数 舍弃末尾空串', () => {
-        expect(codewaveUtils.Split('', '.', false))
+    test('Split function discards the empty string at the end', () => {
+        expect(kubevueUtils.Split('', '.', false))
             .toEqual([]);
-        expect(codewaveUtils.Split('', '', false))
+        expect(kubevueUtils.Split('', '', false))
             .toEqual([]);
-        expect(codewaveUtils.Split('1.', '.', false))
+        expect(kubevueUtils.Split('1.', '.', false))
             .toEqual(['1']);
-        expect(codewaveUtils.Split('1..', '.', false))
+        expect(kubevueUtils.Split('1..', '.', false))
             .toEqual(['1','']);
-        expect(codewaveUtils.Split('1', '.', false))
+        expect(kubevueUtils.Split('1', '.', false))
             .toEqual(['1']);
     });
 });
