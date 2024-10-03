@@ -1,12 +1,12 @@
-/* 仅供小程序使用 */
+/* For use by mini programs only */
 
-/* 将路由带http */
+/* Add routing to http */
 const getUrl = (url) => url.startsWith('http') ? url : 'http://' + url;
 
-/* 小程序环境 */
-export const isMiniApp =  localStorage.getItem("_wx_is_mini")
+/* Mini program environment */
+export const isMiniApp = localStorage.getItem("_wx_is_mini")
 
-/* 路由跳转 */
+/* Route jump */
 export const navigateTo = ({ url }) => {
     if (!isMiniApp)
         return;
@@ -16,7 +16,7 @@ export const navigateTo = ({ url }) => {
     window.wx.miniProgram.navigateTo({ url: miniUrl });
 };
 
-/* 跳转到头像昵称页面*/
+/* Jump to the avatar nickname page*/
 export const navigateToUserInfoPage = () => {
     if (!isMiniApp)
         return;
@@ -24,7 +24,7 @@ export const navigateToUserInfoPage = () => {
     window.wx.miniProgram.navigateTo({ url: `/pages/userinfo/index?redirect_uri=${uri}` });
 };
 
-/* 跳转到手机号页面*/
+/* Jump to mobile phone number page*/
 export const navigateToUserPhonePage = () => {
     if (!isMiniApp)
         return;
@@ -32,7 +32,7 @@ export const navigateToUserPhonePage = () => {
     window.wx.miniProgram.navigateTo({ url: `/pages/userphone/index?redirect_uri=${uri}` });
 };
 
-/* 跳转到扫一扫页面*/
+/* Jump to the scan page*/
 export const navigateScanCodePage = () => {
     if (!isMiniApp)
         return;
@@ -40,7 +40,7 @@ export const navigateScanCodePage = () => {
     window.wx.miniProgram.navigateTo({ url: `/pages/scancode/index?redirect_uri=${uri}` });
 };
 
-/* 跳转到定位页面*/
+/* Jump to the positioning page */
 export const navigateLocationPage = () => {
     if (!isMiniApp)
         return;

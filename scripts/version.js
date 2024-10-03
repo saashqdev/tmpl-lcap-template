@@ -4,13 +4,13 @@ const argv = require("minimist")(process.argv.slice(2));
 
 const version = argv.version || require("../package.json").version;
 
-// 检查version是否有效
+// Check if the version is valid
 const versionReg = /[0-9]+\.[0-9]+\.[0-9]+/
 if (!versionReg.test(version)) {
-  throw new Error('version不符合标准格式');
+  throw new Error('version does not conform to standard format');
 }
 
-// 修改根目录下的package.json
+// Modify package.json in the root directory
 const rootPkgPath = path.join(__dirname, "../package.json");
 const rootPkg = require(rootPkgPath);
 rootPkg.version = version;
@@ -19,7 +19,7 @@ fs.writeJSONSync(rootPkgPath, rootPkg, {
   EOL: "\r\n",
 });
 
-// 遍历packages下的一级目录 
+// Traverse the first-level directories under packages
 const packagesDir = path.join(__dirname, '../packages');
 const packages = fs.readdirSync(packagesDir);
 packages.forEach((package) => {

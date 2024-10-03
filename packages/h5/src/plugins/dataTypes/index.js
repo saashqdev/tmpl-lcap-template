@@ -4,12 +4,12 @@ import { navigateToUserInfoPage, navigateToUserPhonePage, navigateScanCodePage, 
 
 export function getFrontendVariables(options) {
     const frontendVariables = {};
-    const localCacheVariableSet = new Set(); // 本地存储的全局变量集合
+    const localCacheVariableSet = new Set(); // A collection of locally stored global variables
 
     if (Array.isArray(options && options.frontendVariables)) {
         options.frontendVariables.forEach((frontendVariable) => {
             const { name, typeAnnotation, defaultValueFn, defaultCode, localCache } = frontendVariable;
-            localCache && localCacheVariableSet.add(name); // 本地存储的全局变量集合
+            localCache && localCacheVariableSet.add(name); // A collection of locally stored global variables
             let defaultValue = defaultCode?.code;
             if (Object.prototype.toString.call(defaultValueFn) === '[object Function]') {
                 defaultValue = defaultValueFn(Vue);
@@ -67,12 +67,12 @@ export function setGlobal($global) {
             return authService.has(authPath);
         },
         logout() {
-            // FIXME 从全局变量中获取
+            // FIXME is obtained from global variables
             Vue.prototype
                 .$confirm({
-                    title: '提示',
-                    message: '确定退出登录吗?',
-                    content: '确定退出登录吗？',
+                    title: 'Tips',
+                    message: 'Are you sure you want to log out?',
+                    content: 'Are you sure you want to log out? ',
                 })
                 .then(async () => {
                     try {
@@ -91,22 +91,22 @@ export function setGlobal($global) {
                 });
         },
         setI18nLocale(newLocale) {
-            // 修改local中的存储的语言标识
+            // Modify the language identifier stored in local
             localStorage.i18nLocale = newLocale;
-            // 修改当前template的语言
+            // Modify the language of the current template
             $global.i18nInfo.locale = newLocale;
             $global.i18nInfo.currentLocale = newLocale;
-            // 修改当前语言名称
+            // Modify the current language name
             $global.i18nInfo.localeName = this.getI18nList().find((item) => item.id === newLocale)?.name;
-            // 更新当前模板的语言
+            // Update the language of the current template
             appVM.$i18n.locale = newLocale;
-            // 调用UI库更新当前语言
+            // Call the UI library to update the current language
             window.Vue.prototype.$vantLang = newLocale;
-            // 重新加载页面
+            // Reload the page
             window.location.reload();
         },
         getI18nList() {
-            // 在ide中拼接好
+            // Spliced in IDE
             return $global.i18nInfo.I18nList || [];
         },
     });

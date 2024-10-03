@@ -34,7 +34,7 @@ export async function mount(props) {
 
     const { container } = props;
     window.LcapMicro.container = container.querySelector('#app');
-    // window.LcapMicro.appendTo = container.querySelector('#app');  // 如果开启了样式隔离，需要设置 appendTo, 弹窗等组件会挂在 container 上。
+    // window.LcapMicro.appendTo = container.querySelector('#app');  // If style isolation is turned on, appendTo needs to be set, and components such as pop-up windows will be hung on the container.
     window.LcapMicro.props = props;
     appVM = cloudAdminDesigner.init(platformConfig?.appConfig, platformConfig, routes, metaData);
     return Promise.resolve();

@@ -2,11 +2,11 @@ import { encodeUrl, downloadClick } from '@lcap/core-template';
 
 export function destination(url, target = '_self') {
     if (target === '_self') {
-        // 修复访问路径为默认首页 / 时跳转可能失效的问题
+        // Fix the problem that the jump may fail when the access path is the default home page /
         if (url.startsWith('http')) {
             location.href = encodeUrl(url);
         } else {
-            // 处理同页面锚点跳转无效的问题
+            // Handle the problem of invalid anchor jump on the same page
             const beforeHashUrl = url.slice(0, url.indexOf('#'));
             if (url.indexOf('#') !== -1 && beforeHashUrl.indexOf(location.pathname) !== -1) {
                 const hash = url.slice(url.indexOf('#'))?.replace('#', '');

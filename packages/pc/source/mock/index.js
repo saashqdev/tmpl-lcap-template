@@ -21,7 +21,7 @@ module.exports = function (app) {
         res.json({
             "RequestId": "5f8b879d7c3b48119f1a6d53e57c9461",
             "Code": "Success",
-            "Message": "请求调用成功",
+            "Message": "Request call successful",
             "Data": {
                 "UserId": "f4519f848aab479e8bb9dd7c8506e86a",
                 "UserName": "DEVACC-lq1013",

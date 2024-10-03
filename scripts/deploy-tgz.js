@@ -12,7 +12,7 @@ const getDeployConfig = require('./getDeployConfig');
  * @param {string} options.version
  * @param {string} options.platform
  * @returns {Promise<void>}
- * http://minio-api.codewave-dev.163yun.com/lowcode-static/packages/@lcap/template-core@3.5.0/zip.tgz
+ * http://minio-api.kubevue-dev.kubeworkz.io/lowcode-static/packages/@lcap/template-core@3.5.0/zip.tgz
  */
 function deployTgz(options = {}) {
   const { root, name, version, platform, username, password } = options;
@@ -20,7 +20,7 @@ function deployTgz(options = {}) {
 
   const target = name.replace("@", "").replace("/", "-") + "-" + version + ".tgz";
   const targetPath = path.resolve(root, target);
-  // tgz 是否存在
+  // Does tgz exist?
   if (!fs.existsSync(targetPath)) {
     console.error(`${targetPath} not found`);
     process.exit(1);
@@ -29,12 +29,12 @@ function deployTgz(options = {}) {
   const source = "zip.tgz";
   const sourcePath = path.resolve(root, source);
 
-  // zip.tgz 是否存在
+  // Does zip.tgz exist?
   if (fs.existsSync(sourcePath)) {
     fs.unlinkSync(sourcePath);
   }
 
-  // 复制tgz到zip.tgz
+  // Copy tgz to zip.tgz
   fs.copyFileSync(targetPath, sourcePath);
 
   if (!fs.existsSync(sourcePath)) {
@@ -42,7 +42,7 @@ function deployTgz(options = {}) {
     process.exit(1);
   }
 
-  // 开始上传流程
+  // Start the upload process
   const prefix = `packages/${name}@${version}`;
   let formFiles = [{
     name: path.posix.join(prefix, source),
@@ -55,10 +55,10 @@ function deployTgz(options = {}) {
     password: password || defaultConfig.password,
   })
     .then(() => {
-      console.log(`上传成功`);
+      console.log(`Upload successful`);
     })
     .catch(() => {
-      throw new Error("上传失败");
+      throw new Error("Upload failed");
     })
     .finally(() => {
       fs.unlinkSync(sourcePath);

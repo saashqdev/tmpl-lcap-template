@@ -7,7 +7,7 @@ function getDeployConfig(options = {}) {
   if (fs.existsSync(configPath)) {
     config = require(configPath);
   } else {
-    // 写入默认配置
+    // Write default configuration
     fs.writeFileSync(configPath, JSON.stringify({
       platform: options.platform || 'platform',
       username: options.username || 'username',

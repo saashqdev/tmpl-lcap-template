@@ -1,7 +1,7 @@
 {
   "name": "@lcap/mobile-template",
   "version": "1.5.0",
-  "description": "base on vue",
+  "description": "Base on vue",
   "scripts": {
     "dev": "webpack-dev-server --config build/webpack.dev.config.js",
     "build": "webpack --config build/webpack.config.js && npm pack",

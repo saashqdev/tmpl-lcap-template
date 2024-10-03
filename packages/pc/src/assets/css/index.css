@@ -6,7 +6,7 @@ body::backdrop {
     background-color: var(--background-color-default);
 }
 
-/* 兼容全屏下的滚动问题 */
+/* Compatible with scrolling issues in full screen */
 body:fullscreen {
     overflow: auto;
 }

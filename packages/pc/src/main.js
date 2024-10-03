@@ -1,4 +1,4 @@
-// 修改该文件时，需要同步修改 source/icestark/main.js 和 source/qiankun/main.js
+// When modifying this file, source/icestark/main.js and source/qiankun/main.js need to be modified simultaneously
 import metaData from './metaData.js';
 import platformConfig from './platform.config.json';
 import { routes } from './router/routes';

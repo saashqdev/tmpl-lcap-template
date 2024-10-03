@@ -10,7 +10,7 @@ export const getTitleGuard = (appConfig) => (to, from, next) => {
             document.title = metaTitle(to, from);
         } else {
             if (appConfig.documentTitle) {
-                document.title = appConfig.documentTitle.replace(/\$页面标题/g, metaTitle).replace(/\$应用名称/g, appConfig.project);
+                document.title = appConfig.documentTitle.replace(/\$Page Title/g, metaTitle).replace(/\$Application Name/g, appConfig.project);
             } else {
                 document.title = `${metaTitle}-${appConfig.project}`;
             }

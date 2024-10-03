@@ -5,18 +5,18 @@ import { getFrontendVariables, setGlobal } from './plugins/dataTypes';
 import { destination } from './plugins/router';
 import { createRouter } from './router';
 
-// 设置core config
+// Set core config
 setConfig({
     Toast: {
         show:
             Vue.prototype?.$toast?.show ||
             (() => {
-                console.warn('请在Vue.prototype上挂载$toast.show方法');
+                console.warn('Please mount the $toast.show method on Vue.prototype');
             }),
         error:
             Vue.prototype?.$toast?.error ||
             (() => {
-                console.warn('请在Vue.prototype上挂载$toast.error方法');
+                console.warn('Please mount the $toast.error method on Vue.prototype');
             }),
     },
     setGlobal,
@@ -38,26 +38,26 @@ setConfig({
         );
 
         /**
-         * options配置参考
-         * https://axios-http.com/zh/docs/req_config
+         * options configuration reference
+         * https://axios-http.com/docs/req_config
          */
 
-        // 修改请求baseURL
+        //Modify request baseURL
         // options.baseURL = 'https://some-domain.com/api';
 
-        // 增加额外的请求头
+        //Add additional request headers
         // options.headers = {
-        //     ...(options.headers || {}),
-        //     key1: 'value1',
+        // ...(options.headers || {}),
+        // key1: 'value1',
         // }
 
-        // 增加额外的请求参数（带在请求链接上）
+        // Add additional request parameters (brought to the request link)
         // options.params = {
-        //     ...(options.params || {}),
-        //     key2: 'value2',
+        // ...(options.params || {}),
+        // key2: 'value2',
         // };
 
-        // 增加额外的请求参数（带在请求体上）
+        //Add additional request parameters (brought to the request body)
         // options.data = {
         //     ...(options.data || {}),
         //     key3: 'value3',

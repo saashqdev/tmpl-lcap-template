@@ -1,36 +1,36 @@
 # lcap-template
-> 低代码应用模板
+> Low-code application templates
 
-## 项目结构
+## Project Structure
 ```
 |-- root
   |-- packages
-      |-- basic // 纯函数包
-      |-- core // 通用vue框架基础包
-      |-- pc // pc端业务包
-      |-- h5 // h5端业务包
+      |-- basic // pure function package
+      |-- core // General vue framework basic package
+      |-- pc // PC client business package
+      |-- h5 // h5 end business package
 ```
 
-## 环境依赖
+## Environment Dependencies
 - nodejs 18
 - pnpm 8
 
-## 安装依赖
-> 项目根目录下
+## Install Dependencies
+> In the project root directory
 ```
 pnpm install
 ```
 
-## 本地发布静态资源
-> 根目录下
+## Publish Static Resources Locally
+> Under the root directory
 ```
 pnpm build
 
 pnpm run deploy --platform a --username b --password c
 ```
 
-## 修改版本号方式
-> 根目录下
+## How to modify the version number
+> Under the root directory
 ```
 pnpm change:version --version 1.0.0
 ```

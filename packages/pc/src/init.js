@@ -51,9 +51,9 @@ const evalWrap = function (metaData, fnName) {
     metaData && fnName && metaData?.frontendEvents[fnName] && eval(metaData.frontendEvents[fnName]);
 };
 
-// 需要兼容老应用的制品，因此新版本入口函数参数不做改变
+// It needs to be compatible with products of old applications, so the entry function parameters of the new version will not be changed.
 const init = (appConfig, platformConfig, routes, metaData) => {
-    // 应用初始化之前 不能访问应用中的任何逻辑
+    // No logic in the application can be accessed before the application is initialized.
     evalWrap.bind(window)(metaData, 'rendered');
     ['preRequest', 'postRequest'].forEach((fnName) => {
         evalWrap.bind(window)(metaData, fnName);
@@ -69,17 +69,17 @@ const init = (appConfig, platformConfig, routes, metaData) => {
     installFilters(Vue, filters);
     installComponents(Vue, Components);
 
-    // 处理当前语言
+    // Handle current language
     let locale = 'en-US';
     if (appConfig.i18nInfo) {
         const { I18nList, messages } = appConfig.i18nInfo;
         locale = getUserLanguage(appConfig, messages);
-        // 重置当前生效语言
+        // Reset the current effective language
         appConfig.i18nInfo.locale = locale;
         appConfig.i18nInfo.currentLocale = locale;
-        // 设置当前语言名称
+        // Set the current language name
         appConfig.i18nInfo.localeName = I18nList?.find((item) => item.id === locale)?.name;
-        // 设置当前语言的翻译信息
+        // Set translation information for the current language
         window.Vue.prototype.$CloudUILang = locale;
 
         Object.keys(messages).forEach((key) => {
@@ -104,20 +104,20 @@ const init = (appConfig, platformConfig, routes, metaData) => {
     Vue.use(UtilsPlugin, metaData);
     Vue.use(DataTypesPlugin, { ...metaData, i18nInfo: appConfig.i18nInfo });
 
-    // 已经获取过权限接口
+    // Already obtained the permission interface
     Vue.prototype.hasLoadedAuth = false;
 
-    // 是否已经登录
+    // Are you already logged in?
     Vue.prototype.logined = true;
 
-    // 全局catch error，主要来处理中止组件,的错误不想暴露给用户，其余的还是在控制台提示出来
+    // Global catch error is mainly used to handle the abort component. The errors do not want to be exposed to the user, and the rest are still prompted on the console.
     Vue.config.errorHandler = (err, vm, info) => {
-        if (err.name === 'Error' && err.message === '程序中止') {
-            console.warn('程序中止');
+        if (err.name === 'Error' && err.message === 'Program aborted') {
+            console.warn('Program terminated');
         } else {
-            // err，错误对象
-            // vm，发生错误的组件实例
-            // info，Vue特定的错误信息，例如错误发生的生命周期、错误发生的事件
+            // err, error object
+            // vm, the component instance where the error occurred
+            // info, Vue-specific error information, such as the life cycle of the error and the event in which the error occurred
             console.error(err);
         }
     };
@@ -217,22 +217,22 @@ const init = (appConfig, platformConfig, routes, metaData) => {
 
 function getUserLanguage(appConfig, messages = {}) {
     let locale = localStorage.i18nLocale;
-    // 如果local里没有就读主应用的默认语言
+    // If there is no default language for reading the main application in local
     if (!messages[locale]) {
-        // 如果当前浏览器的设置也没有，就读取主应用的默认语言
+        // If there is no current browser setting, read the default language of the main application
         locale = navigator.language || navigator.userLanguage;
 
         if (!messages[locale]) {
-            // 如果不在列表中，获取语言代码的前两位
+            // If not in the list, get the first two digits of the language code
             let baseLang = locale.substring(0, 2);
             const languageList = Object.keys(messages);
-            // 查找列表中是否有与基础语言代码相同的项
+            // Find if there is an item in the list that is the same as the base language code
             let match = languageList.find((lang) => lang.startsWith(baseLang));
-            // 如果存在前两位一样的就用这个
+            // If the first two characters are the same, use this
             if (match) {
                 locale = match;
             } else {
-                // 如果不存在，就用默认语言
+                // If it does not exist, use the default language
                 locale = appConfig.i18nInfo.locale || 'en-US';
             }
         }

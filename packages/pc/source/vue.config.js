@@ -1,4 +1,4 @@
-// 修改该文件时，需要同步修改 source/icestark/vue.config.js 和 source/qiankun/vue.config.js
+// When modifying this file, you need to modify source/icestark/vue.config.js and source/qiankun/vue.config.js
 const path = require('path');
 
 module.exports = {

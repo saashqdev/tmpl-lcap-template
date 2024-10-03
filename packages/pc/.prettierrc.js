@@ -1,37 +1,37 @@
 module.exports = {
     htmlWhitespaceSensitivity: 'ignore',
-    // 一行最多 200 字符
+    // Maximum 200 characters per line
     printWidth: 200,
-    // 使用 4 个空格缩进
+    // Use 4 spaces for indentation
     tabWidth: 4,
-    // 不使用缩进符，而使用空格
+    // Do not use indentation, use spaces instead
     useTabs: false,
-    // 行尾需要有分号
+    // There needs to be a semicolon at the end of the line
     semi: true,
-    // 使用单引号
+    // use single quotes
     singleQuote: true,
-    // 对象的 key 仅在必要时用引号
+    // Object keys are quoted only when necessary
     quoteProps: 'as-needed',
-    // jsx 不使用单引号，而使用双引号
+    // jsx does not use single quotes, but uses double quotes
     jsxSingleQuote: false,
-    // 末尾不需要逗号
+    // No comma required at the end
     trailingComma: 'es5',
-    // 大括号内的首尾需要空格
+    // Spaces are required at the beginning and end of the braces
     bracketSpacing: true,
-    // jsx 标签的反尖括号需要换行
+    // The back angle brackets of the jsx tag need to be wrapped
     jsxBracketSameLine: false,
-    // 箭头函数，只有一个参数的时候，也需要括号
+    // Arrow functions also need parentheses when they have only one parameter.
     arrowParens: 'always',
-    // 每个文件格式化的范围是文件的全部内容
+    //The formatting scope of each file is the entire content of the file
     rangeStart: 0,
     rangeEnd: Infinity,
-    // 不需要写文件开头的 @prettier
+    // No need to write @prettier at the beginning of the file
     requirePragma: false,
-    // 不需要自动在文件开头插入 @prettier
+    // No need to automatically insert @prettier at the beginning of the file
     insertPragma: false,
-    // 使用默认的折行标准
+    // Use default wrapping criteria
     proseWrap: 'preserve',
-    // 换行符使用 lf
+    // Use lf for newline character
     endOfLine: 'lf',
     bracketSameLine: true
 };

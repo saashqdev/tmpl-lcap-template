@@ -15,7 +15,7 @@ function deploy(options = {}) {
     process.exit(1);
   }
 
-  // 开始上传流程
+  // Start upload process
   const prefix = `packages/${name}@${version}`;
   
   let formFiles = glob.globSync(`${source}/**`, {
@@ -46,10 +46,10 @@ function deploy(options = {}) {
     password: password || defaultConfig.password,
   })
     .then(() => {
-      console.log(`上传成功`);
+      console.log(`Upload successful`);
     })
     .catch(() => {
-      throw new Error("上传失败");
+      throw new Error("Upload failed");
     })
 }
 

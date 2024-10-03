@@ -6,7 +6,7 @@
   min-height: 100vh;
   padding-bottom: 100px;
 }
-/* 下面这些都是为了实现只有一级页面级别的.l-root-h5才能设置100vh */
+/* The following are all to achieve that only the first-level page level .l-root-h5 can set 100vh */
 .l-root-h5 .l-root-h5 {
   min-height: initial;
   padding-bottom: 0;
@@ -33,17 +33,17 @@
 }
 
 div[root-app] .l-root-h5 {
-  /* 【自定义组件】h5业务组件样式设置画布高度不生效 http: //projectmanage.netease-official.lcap.163yun.com/dashboard/BugDetail?id=2770434055995392 */
+  /* [Custom component] h5 business component style setting canvas height does not take effect http: //projectmanage.netease-official.lcap.163yun.com/dashboard/BugDetail?id=2770434055995392 */
   /* height: auto;
   min-height: 100%; */
-  min-height: initial; /* 画布中覆盖100vh */
+  min-height: initial; /* Cover 100vh in the canvas */
 
   padding-bottom: 0;
 }
 div[root-app] .l-root-h5 > .van-divider:first-child {
   margin-top: 0;
 }
-/* 子页面根元素 */
+/* Sub-page root element */
 div[router-view-symbol] .l-root-h5 {
   padding-bottom: 100px;
 }
@@ -116,8 +116,8 @@ div[router-view-symbol] .l-root-h5 {
   display: none;
 }
 .h5template-navi {
-  /* H5端页面设置背景图片，发布预览后效果与可视化的效果不一致 http: //projectmanage.netease-official.lcap.163yun.com/dashboard/BugDetail?id=2830648833018368 */
-  /* 达到IDE中高度100%的效果 */
+  /* Set the background image on the H5 side page, and the effect after publishing the preview is inconsistent with the visual effect http: //projectmanage.netease-official.lcap.163yun.com/dashboard/BugDetail?id=2830648833018368 */
+  /* Achieve 100% height effect in IDE */
   min-height: 100vh;
 }
 .h5template-navi .navi-head {
